@@ -1,0 +1,18 @@
+// absolute import baseurl
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/src/*": ["src/*"],
+      "@/pages/*": ["pages/*"],
+      "@/styles/*": ["styles/*"],
+      "@/utils/*": ["utils/*"],
+      "@/hooks/*": ["hooks/*"],
+      "@/types/*": ["types/*"],
+      "@/public/*": ["public/*"],
+      "@/assets/*": ["assets/*"],
+      "@/tools/*": ["tools/*"]
+    }
+  },
+  "exclude": ["node_modules", "build"]
+}
