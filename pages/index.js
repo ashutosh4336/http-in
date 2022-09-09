@@ -14,7 +14,7 @@ export default function Home() {
       <main className={styles.main}>
         <h1 className={styles.title}>http.in</h1>
         <pre className='code-section text-3xl font-bold underline'>
-          curl -X GET http://http.in/api/v1/echo
+          curl -X GET http://http.in/api/ping
         </pre>
       </main>
 
