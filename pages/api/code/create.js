@@ -1,5 +1,5 @@
-import { cacheFetchWithOutTTL } from '@/tools/cache';
-import { connect } from '@/tools/mongo';
+import { cacheFetchWithOutTTL } from '@/lib/cache';
+import { connect } from '@/lib/mongo';
 import { httpDatabase, statusCodeCol } from '@/src/constants/dbConstants';
 import { httpStatusCodes } from '@/src/data/statusCodes';
 import { ALL_CODES } from '@/src/constants/cacheKeys';

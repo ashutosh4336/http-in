@@ -1,0 +1,23 @@
+.footer {
+  height: 8vh;
+  text-align: center;
+  width: 100%;
+  background-color: #bec6c7;
+}
+
+.footer p {
+  margin: 10px 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .card,
+  .footer {
+    border-color: #222;
+  }
+  .code {
+    background: #111;
+  }
+  .logo img {
+    filter: invert(1);
+  }
+}

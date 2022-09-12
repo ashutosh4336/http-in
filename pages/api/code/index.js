@@ -1,11 +1,21 @@
-import { cacheFetchWithOutTTL } from '@/tools/cache';
-import { connect } from '@/tools/mongo';
+import { cacheFetchWithOutTTL } from '@/lib/cache';
+import { connect } from '@/lib/mongo';
 import { httpDatabase, statusCodeCol } from '@/src/constants/dbConstants';
 import { CODE } from '@/src/constants/cacheKeys';
 
 export default async function handler(req, res) {
-  const { limit = 10, skip = 0, searchPhrase = '' } = req.query;
+  let { limit = 10, skip = 0, searchPhrase = '' } = req.query;
   const method = req.method;
+
+  limit = Number(limit);
+  skip = Number(skip);
+
+  if (skip % 10 !== 0 || limit % 10 !== 0) {
+    return res.status(405).json({
+      status: 422,
+      message: 'Number of items and skip should be multiple of 10.',
+    });
+  }
 
   if (method !== 'GET') {
     return res.status(405).json({
@@ -31,8 +41,6 @@ export default async function handler(req, res) {
 
   const cacheKey = `${CODE}_${skip}_${limit}`;
   const value = await cacheFetchWithOutTTL(cacheKey, getStatusCodesDB);
-
-  console.log(18, value);
 
   if (!value) {
     return res.status(400).json({
