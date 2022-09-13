@@ -1,3 +1,4 @@
+// add bootstrap css
 import '../styles/globals.scss';
 import { useEffect } from 'react';
 import router from 'next/router';

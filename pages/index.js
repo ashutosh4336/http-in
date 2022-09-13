@@ -5,7 +5,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import styles from '@/styles/Home.module.scss';
 import FAlert from '@/components/FlowBiteAlert';
 import Layout from '@/layouts/Wrapper';
-import FCardWithImage from '@/components/FlowBiteCard/FCardImage';
+import FCardWithImage from '@/src/components/Card/FCardImage';
+import TailwindHorizontalCard from '@/components/Card/TailwindHorizontalCard';
+import TailwindPagination from '@/components/Pagination/TailwindPagination';
 
 export default function Home() {
   const [openAlert, setOpenAlert] = useState(false);
@@ -40,10 +42,14 @@ export default function Home() {
             curl -X GET http://http.in/api/ping
           </pre> */}
 
+          <TailwindHorizontalCard cardTitle={'HTTP - Code -  100'} />
+          <TailwindHorizontalCard cardTitle={'HTTP - Code -  101'} />
+          <TailwindPagination />
+
+          {/* <FCardWithImage />
           <FCardWithImage />
           <FCardWithImage />
-          <FCardWithImage />
-          <FCardWithImage />
+          <FCardWithImage /> */}
           {/* <button
             className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded mt-4'
             onClick={notify}
