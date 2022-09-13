@@ -1,4 +1,3 @@
-const httpDatabase = 'httpin';
-const statusCodeCol = 'statuscodes';
-
-export { httpDatabase, statusCodeCol };
+export const httpDatabase = 'httpin';
+export const statusCodeCol = 'statuscodes';
+export const clientInfoCol = 'clientInfo';

@@ -1,0 +1,19 @@
+{
+  "operatingSystem": "Mac OS",
+  "browser": "Chrome",
+  "isDesktop": true,
+  "isMobile": false,
+  "isChrome": true,
+  "isFirefox": false,
+  "isIE": false,
+  "ipv4": "20.84.91.166",
+  "userAgent": {
+    "UA": {},
+    "browser": { "name": "Chrome", "version": "105.0.0.0", "major": "105" },
+    "cpu": {},
+    "device": {},
+    "engine": { "name": "Blink", "version": "105.0.0.0" },
+    "os": { "name": "Mac OS", "version": "10.15.7" },
+    "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36"
+  }
+}
