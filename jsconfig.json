@@ -13,7 +13,8 @@
       "@/types/*": ["types/*"],
       "@/public/*": ["public/*"],
       "@/assets/*": ["assets/*"],
-      "@/lib/*": ["lib/*"]
+      "@/lib/*": ["lib/*"],
+      "@/middlewares/*": ["middlewares/*"]
     }
   },
   "exclude": ["node_modules", "build"]
