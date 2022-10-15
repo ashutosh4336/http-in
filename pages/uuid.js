@@ -1,17 +1,41 @@
 import React, { useState, useEffect } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import {
+  v4 as uuidv4,
+  version as uuidVersion,
+  validate as uuidValidate,
+} from 'uuid';
 import { nanoid } from 'nanoid';
 import copy from 'copy-to-clipboard';
 import { FaCopy } from 'react-icons/fa';
 import styles from '@/styles/uuid.module.scss';
 import Layout from '@/layouts/Wrapper';
 import { notifySuccess, notifyInfo } from '@/utils/notify';
+import {
+  AlertSuccess,
+  AlertInfo,
+  AlertError,
+  AlertWarning,
+  AlertDark,
+} from '@/components/Alert/TailwindAlert';
+
+const notifyOptions = {
+  position: 'top-right',
+  autoClose: 3000,
+  hideProgressBar: false,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+};
 
 const UniqueIDGenerator = () => {
+  const [uuidInput, setUUIDInput] = useState('');
   const [uuidIDs, setUUIDs] = useState([]);
   const [nanoIDs, setNanoIDs] = useState([]);
   const [uuidClicked, setUUIDClicked] = useState(false);
   const [nanoIdClicked, setNanoIDClicked] = useState(false);
+  const [isValidUUID, setIsValidUUID] = useState(null);
+
+  const inputExist = uuidInput.length > 0;
 
   useEffect(() => {
     setUUIDs([uuidv4()]);
@@ -39,15 +63,6 @@ const UniqueIDGenerator = () => {
   };
 
   const copyToClipboard = (type = 'uuid') => {
-    const notifyOptions = {
-      position: 'top-right',
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-    };
-
     const copyOptions = {
       debug: true,
       format: 'text/plain',
@@ -69,6 +84,28 @@ const UniqueIDGenerator = () => {
         notifyInfo('Please select item to copy.', notifyOptions);
         break;
     }
+  };
+
+  const uuidValidateV4 = (uuid) => {
+    // console.log(80, uuid);
+    return uuidValidate(uuid) && uuidVersion(uuid) === 4;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(90, uuidInput);
+
+    if (uuidValidateV4(uuidInput)) {
+      setIsValidUUID(true);
+      // notifyInfo('Valid UUID v4', notifyOptions);
+    } else {
+      setIsValidUUID(false);
+      // notifyInfo('Invalid UUID v4', notifyOptions);
+    }
+  };
+
+  const closeAlert = () => {
+    setIsValidUUID(null);
   };
 
   return (
@@ -152,6 +189,42 @@ const UniqueIDGenerator = () => {
               ))}
             </ul>
           </div>
+        </div>
+
+        <hr className={styles.horizontalLine} />
+        <div className={styles.checkUUID}>
+          <form onSubmit={handleSubmit} className='mb-4'>
+            <div className='relative'>
+              <input
+                value={uuidInput}
+                onChange={(e) => setUUIDInput(e.target.value)}
+                type='text'
+                name='uuid'
+                id='validate-uuid'
+                className='block p-4 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                placeholder='Validate if the the String is a valid UUID'
+                required
+              />
+              <button
+                type='submit'
+                disabled={!inputExist}
+                className='text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
+              >
+                Check
+              </button>
+            </div>
+          </form>
+          {inputExist && isValidUUID === true ? (
+            <AlertSuccess closeAlert={closeAlert}>
+              <span>Yes, it&apos;s a Valid UUId</span>
+            </AlertSuccess>
+          ) : null}
+
+          {inputExist && isValidUUID === false ? (
+            <AlertError closeAlert={closeAlert}>
+              <span>No, it isn&apos;t Valid UUId</span>
+            </AlertError>
+          ) : null}
         </div>
       </div>
     </Layout>

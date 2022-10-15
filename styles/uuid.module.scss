@@ -3,3 +3,9 @@
   color: #000;
   min-height: calc(100vh - 22vh);
 }
+
+.horizontalLine {
+  border-bottom: 1px solid #1956db;
+  // border-bottom: 1px solid rgb(226, 222, 222);
+  margin: 2.5rem 0;
+}
