@@ -1,27 +1,15 @@
-import 'react-toastify/dist/ReactToastify.css';
 import React, { useState } from 'react';
-import Image from 'next/image';
-import { ToastContainer, toast } from 'react-toastify';
 import styles from '@/styles/Home.module.scss';
-import FAlert from '@/components/FlowBiteAlert';
 import Layout from '@/layouts/Wrapper';
-import FCardWithImage from '@/src/components/Card/FCardImage';
 import TailwindHorizontalCard from '@/components/Card/TailwindHorizontalCard';
 import TailwindPagination from '@/components/Pagination/TailwindPagination';
+import { notifySuccess } from '@/utils/notify';
+
+// import FAlert from '@/components/FlowBiteAlert';
+// import FCardWithImage from '@/src/components/Card/FCardImage';
 
 export default function Home() {
   const [openAlert, setOpenAlert] = useState(false);
-
-  const notify = () =>
-    toast.success('🦄 Hello world !', {
-      position: 'top-right',
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
 
   const toggleOpenAlert = () => {
     setOpenAlert((ps) => !ps);
@@ -52,7 +40,7 @@ export default function Home() {
           <FCardWithImage /> */}
           {/* <button
             className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded mt-4'
-            onClick={notify}
+            onClick={() => notifySuccess('Success')}
           >
             Show Toast ✅
           </button> */}

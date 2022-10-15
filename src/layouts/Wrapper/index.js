@@ -1,3 +1,5 @@
+'use strict';
+import 'react-toastify/dist/ReactToastify.css';
 import React from 'react';
 import Head from 'next/head';
 import { ToastContainer } from 'react-toastify';
@@ -36,7 +38,7 @@ export default function Layout({ title, keywords, description, children }) {
       <div className={styles.container}>{children}</div>
 
       <Footer />
-      <ToastContainer />
+      <ToastContainer className='http-toast-container' />
     </div>
   );
 }
