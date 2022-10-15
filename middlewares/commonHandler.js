@@ -3,6 +3,7 @@ global.logger = logger;
 
 import nc from 'next-connect';
 import mDB from '@/middlewares/mDB';
+import rateLimit from '@/middlewares/rateLimit';
 
 export default function commonHandler() {
   return nc({
@@ -10,7 +11,9 @@ export default function commonHandler() {
     onNoMatch: (req, res) => {
       res.status(404).json({ success: false, message: 'Page is not found' });
     },
-  }).use(mDB);
+  })
+    .use(rateLimit)
+    .use(mDB);
 }
 
 // var accessLogStream = fs.createWriteStream(path.join('./', 'access.log'), { flags: 'a' })

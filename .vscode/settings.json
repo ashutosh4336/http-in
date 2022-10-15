@@ -6,6 +6,9 @@
     "noreferrer",
     "rediss",
     "statuscodes",
-    "toastify"
+    "toastify",
+    "uniqueid",
+    "uniquestrings",
+    "uuidv"
   ]
 }
