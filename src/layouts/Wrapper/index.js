@@ -21,9 +21,15 @@ Layout.defaultProps = {
   keywords: 'http, https, backend, client, api, rest',
 };
 
-export default function Layout({ title, keywords, description, children }) {
+export default function Layout({
+  title,
+  keywords,
+  htmlClasses,
+  description,
+  children,
+}) {
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper + htmlClasses || ''}>
       <Head>
         <title>{title}</title>
         <meta name='keywords' content={keywords} />

@@ -22,6 +22,14 @@ export default function NavLink({ href, children, ...props }) {
       'bg-blue-500 text-white font-bold py-2 px-4 border border-blue-700 rounded';
   }
 
+  if (href.startsWith('/blog')) {
+    return (
+      <a className={props.className} href={href} {...props}>
+        {children}
+      </a>
+    );
+  }
+
   return (
     <Link href={href}>
       <a className={props.className} {...props}>

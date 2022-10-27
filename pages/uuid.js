@@ -10,13 +10,7 @@ import { FaCopy } from 'react-icons/fa';
 import styles from '@/styles/uuid.module.scss';
 import Layout from '@/layouts/Wrapper';
 import { notifySuccess, notifyInfo } from '@/utils/notify';
-import {
-  AlertSuccess,
-  AlertInfo,
-  AlertError,
-  AlertWarning,
-  AlertDark,
-} from '@/components/Alert/TailwindAlert';
+import { AlertSuccess, AlertError } from '@/components/Alert/TailwindAlert';
 
 const notifyOptions = {
   position: 'top-right',

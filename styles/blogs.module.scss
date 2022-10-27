@@ -1,0 +1,24 @@
+.blogs-page {
+  min-height: calc(100vh - 40vh);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 1rem;
+  margin: 0 auto;
+  max-width: 800px;
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 500;
+  }
+}
+
+.link {
+  background-color: aquamarine;
+  padding: 1rem;
+  font-family: 'Fira Code Retina', monospace;
+  border: rgb(47, 181, 136) 1px solid;
+  border-radius: 10px;
+  cursor: pointer;
+}

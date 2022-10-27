@@ -2,6 +2,7 @@
 import '../styles/globals.scss';
 import { useEffect } from 'react';
 import router from 'next/router';
+import Script from 'next/script';
 import NProgress from 'nprogress';
 import { publicIpv4 } from 'public-ip';
 import * as rdd from 'react-device-detect';
@@ -75,7 +76,25 @@ function MyApp({ Component, pageProps }) {
     }
   }
 
-  return <Component {...pageProps} />;
+  return (
+    <>
+      <Script
+        async
+        script-src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9232405558310752'
+        crossOrigin='anonymous'
+        id='AdSense'
+        data-ad-client='ca-pub-9232405558310752'
+        strategy='afterInteractive'
+        onError={(e) => {
+          console.error('Script failed to load', e);
+        }}
+        onReady={(e) => {
+          console.log('Script ready');
+        }}
+      />
+      <Component {...pageProps} />;
+    </>
+  );
 }
 
 export default MyApp;
