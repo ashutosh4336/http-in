@@ -1,6 +1,7 @@
 // add bootstrap css
 import '../styles/globals.scss';
 import { useEffect } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import router from 'next/router';
 import Script from 'next/script';
 import NProgress from 'nprogress';
@@ -93,6 +94,7 @@ function MyApp({ Component, pageProps }) {
         }}
       />
       <Component {...pageProps} />
+      <Analytics />
     </>
   );
 }
