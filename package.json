@@ -10,11 +10,8 @@
   },
   "dependencies": {
     "autoprefixer": "^10.4.8",
-    "bootstrap": "^5.2.1",
     "copy-to-clipboard": "^3.3.2",
     "date-fns": "^2.29.3",
-    "flowbite": "^1.5.3",
-    "flowbite-react": "^0.1.10",
     "ioredis": "^5.2.3",
     "is-plain-object": "^5.0.0",
     "localforage": "^1.10.0",

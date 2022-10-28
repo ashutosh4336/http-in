@@ -1,25 +1,66 @@
-.footer {
-  // height: 8vh;
-  text-align: center;
-  bottom: 0;
-  width: 100%;
-  background-color: #bec6c7;
-  // position: fixed;
+.footerSection {
+  border-top: '1px solid #e5e5e5';
+  min-width: '100%';
+  height: '45vh';
+  position: 'absolute';
+  overflow: 'hidden';
 }
 
-.footer p {
-  margin: 10px 0;
+.footerSectionHeader {
+  border-bottom: 1px solid #c2c0c0;
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin: 0 0 3rem 0;
+  font-family: 'Fira Code';
 }
 
-@media (prefers-color-scheme: dark) {
-  .card,
-  .footer {
-    border-color: #222;
+.footerLinks {
+  font-family: 'Courier New', Courier, monospace;
+  padding: 1px 15px;
+  list-style: none;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #3e3e3e;
+  text-decoration: none !important;
+  text-transform: capitalize;
+  letter-spacing: 0.1rem;
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    border: rgb(46, 163, 124) 1px solid;
+    border-radius: 8px;
+    background-color: aquamarine;
+    color: #000;
   }
-  .code {
-    background: #111;
+}
+
+.footerText {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #3e3e3e;
+  text-decoration: none !important;
+  text-transform: capitalize;
+  letter-spacing: 0.1rem;
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    border: rgb(46, 163, 124) 1px solid;
+    border-radius: 8px;
+    background-color: aquamarine;
+    color: #000;
   }
-  .logo img {
-    filter: invert(1);
+}
+
+.cardContainer {
+  width: '100%';
+  height: '100%';
+  padding: '2rem';
+  position: 'absolute';
+  top: '1rem';
+  left: '0';
+
+  @media screen and (max-width: 768px) {
+    padding: '1rem';
+
+    margin-bottom: 1rem;
   }
 }

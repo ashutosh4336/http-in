@@ -87,7 +87,6 @@ const UniqueIDGenerator = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(90, uuidInput);
 
     if (uuidValidateV4(uuidInput)) {
       setIsValidUUID(true);
@@ -208,17 +207,19 @@ const UniqueIDGenerator = () => {
               </button>
             </div>
           </form>
-          {inputExist && isValidUUID === true ? (
-            <AlertSuccess closeAlert={closeAlert}>
-              <span>Yes, it&apos;s a Valid UUId</span>
-            </AlertSuccess>
-          ) : null}
+          <div className={styles.uuidAlertContainer}>
+            {inputExist && isValidUUID === true ? (
+              <AlertSuccess closeAlert={closeAlert}>
+                <span>Yes, it&apos;s a Valid UUId</span>
+              </AlertSuccess>
+            ) : null}
 
-          {inputExist && isValidUUID === false ? (
-            <AlertError closeAlert={closeAlert}>
-              <span>No, it isn&apos;t Valid UUId</span>
-            </AlertError>
-          ) : null}
+            {inputExist && isValidUUID === false ? (
+              <AlertError closeAlert={closeAlert}>
+                <span>No, it isn&apos;t Valid UUId</span>
+              </AlertError>
+            ) : null}
+          </div>
         </div>
       </div>
     </Layout>

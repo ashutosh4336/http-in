@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ['flowbite.com', 'mdbootstrap.com'],
+    domains: ['res.cloudinary.com'],
   },
   output: 'standalone',
   experimental: {
@@ -36,14 +36,14 @@ const nextConfig = {
     ];
   },
 
-  async headers() {
-    return [
-      {
-        source: '/(.*)',
-        headers: securityHeaders,
-      },
-    ];
-  },
+  // async headers() {
+  //   return [
+  //     {
+  //       source: '/(.*)',
+  //       headers: securityHeaders,
+  //     },
+  //   ];
+  // },
 };
 
 // https://nextjs.org/docs/advanced-features/security-headers

@@ -1,87 +1,105 @@
-import React from 'react';
-import Image from 'next/image';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import NavLink from './NavLink';
+import Image from 'next/image';
 
-const navItemClasses = `block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700`;
+const Nav = () => {
+  const [open, setOpen] = useState(false);
 
-const Navbar = () => {
   return (
-    <header style={{ height: '7vh' }}>
-      <nav className='bg-white px-2 sm:px-4 py-2.5 dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-900 dark:border-gray-900 '>
-        <div className='container flex flex-wrap justify-between items-center mx-auto'>
-          <Link href='/'>
-            <a className='flex items-center'>
-              <Image
-                src='/web_server.svg'
-                className='mr-3 h-6 sm:h-9'
-                alt='Flowbite Logo'
-                width={70}
-                height={50}
-              />
-              <span className='self-center text-xl font-semibold whitespace-nowrap dark:text-white'>
-                The HTTP
-              </span>
-            </a>
-          </Link>
-          <div className='flex md:order-2'>
+    <>
+      <nav className='flex items-center justify-between flex-wrap bg-white py-4 lg:px-12 shadow border-solid border-t-2 border-blue-700'>
+        <div className='flex justify-between lg:w-auto w-full lg:border-b-0 pl-6 pr-2 border-solid border-b-2 border-gray-300 pb-5 lg:pb-0'>
+          <div className='flex items-center flex-shrink-0 text-gray-800 mr-16'>
+            <span className='font-semibold text-xl tracking-tight'>
+              My Navbar
+            </span>
+          </div>
+          <div className='block lg:hidden '>
             <button
-              data-collapse-toggle='navbar-sticky'
-              type='button'
-              className='inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600'
-              aria-controls='navbar-sticky'
-              aria-expanded='false'
-              onClick={() => console.log('clicked btn')}
+              id='nav'
+              className='flex items-center px-3 py-2 border-2 rounded text-blue-700 border-blue-700 hover:text-blue-700 hover:border-blue-700'
             >
-              <span className='sr-only'>Open main menu</span>
               <svg
-                className='w-6 h-6'
-                aria-hidden='true'
-                fill='currentColor'
+                className='fill-current h-3 w-3'
                 viewBox='0 0 20 20'
                 xmlns='http://www.w3.org/2000/svg'
               >
-                <path
-                  fillRule='evenodd'
-                  d='M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z'
-                  clipRule='evenodd'
-                ></path>
+                <title>Menu</title>
+                <path d='M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z' />
               </svg>
             </button>
           </div>
-          <div
-            className='hidden justify-between items-center w-full md:flex md:w-auto md:order-1'
-            id='navbar-sticky'
-          >
-            <ul className='flex flex-col p-4 mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700'>
-              <li>
-                <NavLink href='/about' className={navItemClasses}>
-                  About
-                </NavLink>
-              </li>
+        </div>
 
-              <li>
-                <NavLink href='/blogs' className={navItemClasses}>
-                  Blog
-                </NavLink>
-              </li>
+        <div className='menu w-full lg:block flex-grow lg:flex lg:items-center lg:w-auto lg:px-3 px-8'>
+          <div className='text-md font-bold text-blue-700 lg:flex-grow'>
+            <a
+              href='#responsive-header'
+              className='block mt-4 lg:inline-block lg:mt-0 hover:text-white px-4 py-2 rounded hover:bg-blue-700 mr-2'
+            >
+              Menu 1
+            </a>
+            <a
+              href='#responsive-header'
+              className=' block mt-4 lg:inline-block lg:mt-0 hover:text-white px-4 py-2 rounded hover:bg-blue-700 mr-2'
+            >
+              Menu 2
+            </a>
+            <a
+              href='#responsive-header'
+              className='block mt-4 lg:inline-block lg:mt-0 hover:text-white px-4 py-2 rounded hover:bg-blue-700 mr-2'
+            >
+              Menu 3
+            </a>
+          </div>
 
-              <li>
-                <NavLink href='/contact' className={navItemClasses}>
-                  Contact
-                </NavLink>
-              </li>
-              <li>
-                <NavLink href='/developers' className={navItemClasses}>
-                  Developer
-                </NavLink>
-              </li>
-            </ul>
+          <div className='relative mx-auto text-gray-600 lg:block hidden'>
+            <input
+              className='border-2 border-gray-300 bg-white h-10 pl-2 pr-8 rounded-lg text-sm focus:outline-none'
+              type='search'
+              name='search'
+              placeholder='Search'
+            />
+            <button type='submit' className='absolute right-0 top-0 mt-3 mr-2'>
+              <svg
+                className='text-gray-600 h-4 w-4 fill-current'
+                xmlns='http://www.w3.org/2000/svg'
+                version='1.1'
+                id='Capa_1'
+                x='0px'
+                y='0px'
+                viewBox='0 0 56.966 56.966'
+                xmlSpace='preserve'
+                width='512px'
+                height='512px'
+              >
+                <path d='M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z' />
+              </svg>
+            </button>
+          </div>
+          <div className='flex '>
+            <a
+              href='#'
+              className='block text-md px-4 py-2 rounded text-blue-700 ml-2 font-bold hover:text-white mt-4 hover:bg-blue-700 lg:mt-0'
+            >
+              Sign in
+            </a>
+
+            <a
+              href='#'
+              className=' block text-md px-4  ml-2 py-2 rounded text-blue-700 font-bold hover:text-white mt-4 hover:bg-blue-700 lg:mt-0'
+            >
+              login
+            </a>
           </div>
         </div>
       </nav>
-    </header>
+    </>
   );
 };
 
-export default Navbar;
+export default Nav;
+
+/**
+ *  https://res.cloudinary.com/thirus/image/upload/v1632162912/logos/chat_ys7mog.svg
+ */

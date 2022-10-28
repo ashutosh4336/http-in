@@ -92,7 +92,7 @@ function MyApp({ Component, pageProps }) {
           console.log('Script ready');
         }}
       />
-      <Component {...pageProps} />;
+      <Component {...pageProps} />
     </>
   );
 }

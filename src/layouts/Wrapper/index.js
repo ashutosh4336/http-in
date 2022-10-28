@@ -26,6 +26,7 @@ export default function Layout({
   keywords,
   htmlClasses,
   description,
+  faviconIcon = '/favicon.ico',
   children,
 }) {
   return (
@@ -36,15 +37,17 @@ export default function Layout({
         <meta name='description' content={description} />
         <meta charSet='utf-8' />
         <meta name='viewport' content='initial-scale=1.0, width=device-width' />
-        <link rel='icon' href='/favicon.ico' />
+        <link rel='icon' href={faviconIcon} />
       </Head>
 
-      <Navbar />
+      <section className={styles.navSection}>{/* <Navbar /> */}</section>
 
-      <div className={styles.container}>{children}</div>
+      <main className={styles.container}>{children}</main>
 
-      <Footer />
-      <ToastContainer className='http-toast-container' />
+      <section className={'main-footer'}>
+        <Footer />
+        <ToastContainer className='http-toast-container' />
+      </section>
     </div>
   );
 }

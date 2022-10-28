@@ -1,10 +1,12 @@
-.main {
-  min-height: calc(100vh - 15vh);
-  // max-width: 100%;
-  // padding: 4rem 0;
-  // flex: 1;
-  // display: flex;
-  // flex-direction: column;
-  // justify-content: center;
-  // align-items: center;
+.container {
+  min-height: calc(100vh - 22vh);
+}
+
+.curlLink {
+  background-color: aquamarine;
+  padding: 1rem;
+  font-family: 'Fira Code Retina', monospace;
+  border: rgb(47, 181, 136) 1px solid;
+  border-radius: 10px;
+  cursor: pointer;
 }
