@@ -1,15 +1,21 @@
 .uuidIdPage {
   background-color: #fff;
   color: #000;
-  min-height: calc(100vh - 22vh);
+
+  // min-height: calc(100vh - 22vh);
+}
+
+.uuidBox {
+  border: 1.5px solid #374151;
+  border-radius: 10px;
 }
 
 .horizontalLine {
-  border-bottom: 1px solid #1956db;
+  border-bottom: 1px solid #374151;
   // border-bottom: 1px solid rgb(226, 222, 222);
   margin: 2.5rem 0;
 }
 
 .uuidAlertContainer {
-  height: 3.5rem;
+  height: 7rem;
 }

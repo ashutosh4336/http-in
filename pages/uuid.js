@@ -4,13 +4,16 @@ import {
   version as uuidVersion,
   validate as uuidValidate,
 } from 'uuid';
-import { nanoid } from 'nanoid';
 import copy from 'copy-to-clipboard';
+import { nanoid } from 'nanoid';
 import { FaCopy } from 'react-icons/fa';
+import { VscError } from 'react-icons/vsc';
+import { TiTick } from 'react-icons/ti';
+
 import styles from '@/styles/uuid.module.scss';
 import Layout from '@/layouts/Wrapper';
 import { notifySuccess, notifyInfo } from '@/utils/notify';
-import { AlertSuccess, AlertError } from '@/components/Alert/TailwindAlert';
+import CustomAlert from '@/components/Alert/CustomAlert';
 
 const notifyOptions = {
   position: 'top-right',
@@ -37,6 +40,19 @@ const UniqueIDGenerator = () => {
 
     return () => {};
   }, []);
+
+  const handleInputUpdate = (e) => {
+    if (isValidUUID !== null) {
+      setIsValidUUID(null);
+    }
+
+    const value = e?.target?.value;
+
+    setUUIDInput(value);
+  };
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // const optimizedFn = useCallback(debounce(handleInputUpdate), []);
 
   const generateUUIDs = (numberOfIds = 1) => {
     const generateUniqueIds = [...Array(numberOfIds).keys()].map(() =>
@@ -90,10 +106,8 @@ const UniqueIDGenerator = () => {
 
     if (uuidValidateV4(uuidInput)) {
       setIsValidUUID(true);
-      // notifyInfo('Valid UUID v4', notifyOptions);
     } else {
       setIsValidUUID(false);
-      // notifyInfo('Invalid UUID v4', notifyOptions);
     }
   };
 
@@ -107,7 +121,9 @@ const UniqueIDGenerator = () => {
       keywords='uuid, generate, uuidv4, javascript, uniqueid, uniquestrings, string, npm uuid, uuidv1'
     >
       <div className={styles.uuidIdPage} id={'unique-id-page'}>
-        <div className='p-12 bg-gray-100 text-gray-700 border border-blue-700 rounded grid grid-flow-row sm:grid-flow-col gap-3 mb-4'>
+        <div
+          className={`${styles.uuidBox} p-12 bg-gray-100 text-gray-700 grid grid-flow-row sm:grid-flow-col gap-3 mt-4`}
+        >
           <div className='sm:col-span-1 text-center'>
             <h2 className='font-semibold text-4xl mb-4 mt-4'>Generate UUID</h2>
 
@@ -134,7 +150,7 @@ const UniqueIDGenerator = () => {
                         marginLeft: '0.5rem',
                         marginTop: '-0.5rem',
                         cursor: 'pointer',
-                        color: '#0e4ac0',
+                        color: '#374151',
                         fontSize: '1.5rem',
                       }}
                     />
@@ -144,7 +160,9 @@ const UniqueIDGenerator = () => {
             </ul>
           </div>
         </div>
-        <div className='p-12 bg-gray-100 text-gray-700 border border-blue-700 rounded grid grid-flow-row sm:grid-flow-col gap-3 mb-4'>
+        <div
+          className={`${styles.uuidBox} p-12 bg-gray-100 text-gray-700 grid grid-flow-row sm:grid-flow-col gap-3 mt-4`}
+        >
           <div className='sm:col-span-1 text-center'>
             <h2 className='font-semibold text-4xl mb-4 mt-4'>
               Generate NanoID
@@ -173,7 +191,7 @@ const UniqueIDGenerator = () => {
                         marginLeft: '0.5rem',
                         marginTop: '-0.5rem',
                         cursor: 'pointer',
-                        color: '#0e4ac0',
+                        color: '#374151',
                         fontSize: '1.5rem',
                       }}
                     />
@@ -185,12 +203,13 @@ const UniqueIDGenerator = () => {
         </div>
 
         <hr className={styles.horizontalLine} />
+
         <div className={styles.checkUUID}>
           <form onSubmit={handleSubmit} className='mb-4'>
             <div className='relative'>
               <input
                 value={uuidInput}
-                onChange={(e) => setUUIDInput(e.target.value)}
+                onChange={handleInputUpdate}
                 type='text'
                 name='uuid'
                 id='validate-uuid'
@@ -207,17 +226,58 @@ const UniqueIDGenerator = () => {
               </button>
             </div>
           </form>
+
           <div className={styles.uuidAlertContainer}>
             {inputExist && isValidUUID === true ? (
-              <AlertSuccess closeAlert={closeAlert}>
-                <span>Yes, it&apos;s a Valid UUId</span>
-              </AlertSuccess>
+              <CustomAlert
+                textAlign={'left'}
+                textColor={'#fff'}
+                backgroundColor={'#0e4ac0'}
+                padding={'10px'}
+                margin={'10px 0'}
+                closeIconColor={'#fff'}
+                height={'3rem'}
+                border={'1px solid #333'}
+                clickHandler={closeAlert}
+              >
+                <span>
+                  <TiTick
+                    style={{
+                      display: 'inline-block',
+                      marginRight: '0.5rem',
+                      color: '#fff',
+                      fontSize: '1.5rem',
+                    }}
+                  />
+                  Yes, it&apos;s a Valid UUId
+                </span>
+              </CustomAlert>
             ) : null}
 
             {inputExist && isValidUUID === false ? (
-              <AlertError closeAlert={closeAlert}>
-                <span>No, it isn&apos;t Valid UUId</span>
-              </AlertError>
+              <CustomAlert
+                textAlign={'left'}
+                textColor={'#fff'}
+                backgroundColor={'#0e4ac0'}
+                padding={'10px'}
+                margin={'10px 0'}
+                closeIconColor={'#fff'}
+                height={'3rem'}
+                border={'1px solid #333'}
+                clickHandler={closeAlert}
+              >
+                <span>
+                  <VscError
+                    style={{
+                      display: 'inline-block',
+                      marginRight: '0.5rem',
+                      color: '#fff',
+                      fontSize: '1.5rem',
+                    }}
+                  />
+                  No, it isn&apos;t Valid UUId
+                </span>
+              </CustomAlert>
             ) : null}
           </div>
         </div>
