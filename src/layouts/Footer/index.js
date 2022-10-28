@@ -28,15 +28,26 @@ export default function Footer() {
                 <a className={styles.footerLinks}>Contact</a>
               </Link>
             </div>
+
+            <div>
+              <Link href='/terms-and-conditions'>
+                <a className={styles.footerLinks}>Privacy & Term</a>
+              </Link>
+            </div>
           </SimpleCard>
         </div>
 
         <div>
           <SimpleCard title='Browse'>
             <div>
-              <Link href='/blogs'>
-                <a className={styles.footerLinks}>Articles</a>
-              </Link>
+              <a
+                href='https://blog.thehttp.in/'
+                target='_blank'
+                rel='noreferrer'
+                className={styles.footerLinks}
+              >
+                Blogs
+              </a>
             </div>
             <div>
               <Link href='/developers'>
@@ -68,17 +79,27 @@ export default function Footer() {
                 LinkedIn
               </a>
             </div>
+            <div>
+              <a
+                href='https://github.com/ashutosh4336'
+                className={styles.footerLinks}
+                target='_blank'
+                rel='noreferrer'
+              >
+                GitHub
+              </a>
+            </div>
           </SimpleCard>
         </div>
       </div>
 
       <div className={`${styles.footerText} flex justify-center text-center`}>
-        <Image
+        {/* <Image
           src='https://res.cloudinary.com/thirus/image/upload/v1632162912/logos/chat_ys7mog.svg'
           alt='logo'
           width={50}
           height={50}
-        ></Image>
+        ></Image> */}
 
         <div>Copyright &copy; TheHTTP {new Date().getFullYear()} </div>
       </div>

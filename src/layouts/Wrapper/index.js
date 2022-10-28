@@ -44,7 +44,7 @@ export default function Layout({
 
       <main className={styles.container}>{children}</main>
 
-      <section className={'main-footer'}>
+      <section className={`${styles.footerContainer} main-footer`}>
         <Footer />
         <ToastContainer className='http-toast-container' />
       </section>

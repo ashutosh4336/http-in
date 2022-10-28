@@ -2,97 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono&family=Ubuntu:wght@300&display=swap');
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Ubuntu', sans-serif;
+  // font-family: 'Ubuntu Mono', monospace;
   // font-family: 'Fira Code', monospace;
 }
-
-// .code-section {
-//   background-color: rgb(211, 200, 200);
-//   padding: 10px;
-//   border: 1px solid #eaeaea;
-//   border-radius: 10px;
-// }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-}
-
-.btn-danger {
-  display: inline-block;
-  background: red;
-  color: #fff;
-  padding: 10px 20px;
-  cursor: pointer;
-  border: 0;
-  border-radius: 5px;
-}
-
-.btn:hover {
-  opacity: 0.9;
-}
-
-.btn-secondary {
-  font: inherit;
-  font-size: 13px;
-  background: #000;
-  color: #fff !important;
-  border: 0;
-  border-radius: 5px;
-  padding: 5px 15px;
-  margin: 0 20px;
-  cursor: pointer;
-}
-
-.btn-secondary:hover {
-  opacity: 0.8;
-}
-
-.btn-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.btn-icon svg {
-  margin-right: 5px;
-}
-
-.tailwind-card-with-image {
-  height: 100%;
-  max-width: 40vw;
-  border-radius: 10px;
-  border: 1px solid #eaeaea;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease-in-out;
-}
-
-.footerSectionHeader {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-}
-
-.footerText {
-  font-size: 1.2rem;
-  font-weight: 400;
-  padding-bottom: 1.5rem;
-}
-
-a:hover {
-  text-decoration: underline;
-  background-color: #000;
-  color: #fff;
-}
-
-.full-screen {
-  max-width: 100%;
 }
 
 .debug {

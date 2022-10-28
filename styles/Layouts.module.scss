@@ -11,5 +11,13 @@
   margin: 0 auto;
   padding: 0 30px;
   max-width: 95vw;
+  min-height: calc(100vh - 40vh);
   // max-width: 960px;
+}
+
+.footerContainer {
+  height: '45vh';
+  left: 0;
+  bottom: 0;
+  width: 100% !important;
 }

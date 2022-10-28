@@ -1,7 +1,6 @@
 .footerSection {
   border-top: '1px solid #e5e5e5';
   min-width: '100%';
-  height: '45vh';
   position: 'absolute';
   overflow: 'hidden';
 }
@@ -10,31 +9,34 @@
   border-bottom: 1px solid #c2c0c0;
   font-size: 1.5rem;
   font-weight: 500;
-  margin: 0 0 3rem 0;
+  margin: 0 0 1.5rem 0;
   font-family: 'Fira Code';
 }
 
 .footerLinks {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'Ubuntu', sans-serif;
   padding: 1px 15px;
   list-style: none;
   font-size: 1rem;
-  font-weight: 600;
-  color: #3e3e3e;
+  line-height: 2em;
+  font-weight: 900;
+  color: #000;
   text-decoration: none !important;
   text-transform: capitalize;
   letter-spacing: 0.1rem;
   transition: all 0.3s ease-in-out;
+
   &:hover {
-    border: rgb(46, 163, 124) 1px solid;
-    border-radius: 8px;
-    background-color: aquamarine;
-    color: #000;
+    // text-decoration: underline;
+    background-color: #3e3e3e;
+    border: 1px solid #000;
+    border-radius: 4px;
+    color: #fff;
   }
 }
 
 .footerText {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'Ubuntu', sans-serif;
   font-size: 1rem;
   font-weight: 600;
   color: #3e3e3e;
@@ -42,6 +44,7 @@
   text-transform: capitalize;
   letter-spacing: 0.1rem;
   transition: all 0.3s ease-in-out;
+  padding-bottom: 10px;
 }
 
 .cardContainer {
