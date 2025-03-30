@@ -87,6 +87,11 @@
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
+  min-width: 100px;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
     transform: translateY(-2px);
@@ -116,23 +121,32 @@
     font-size: 0.9rem;
     padding: 0.5rem;
     background: #fff;
-    // border-radius: 0.25rem;
-    // border: 1px solid #374151;
+    border-radius: 0.25rem;
+    border: 1px solid #374151;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
   }
 }
 
 .copyButton {
-  padding: 0.5rem 1rem;
-  background: rgba(0, 255, 135, 0.1);
-  color: #00ff87;
-  border: 1px solid rgba(0, 255, 135, 0.2);
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(45deg, #00ff87, #60efff);
+  color: #1a1a1a;
+  border: none;
   border-radius: 0.5rem;
-  font-size: 0.9rem;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
+  min-width: 100px;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
-    background: rgba(0, 255, 135, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 255, 135, 0.3);
   }
 }
 
