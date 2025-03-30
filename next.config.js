@@ -3,12 +3,19 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ['res.cloudinary.com'],
+    domains: ['images.unsplash.com', 'res.cloudinary.com'],
   },
-  output: 'standalone',
   experimental: {
-    legacyBrowsers: false,
-    browsersListForSwc: true,
+    serverActions: {
+      bodySizeLimit: '10mb',
+    },
+  },
+  webpack: (config) => {
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ['@svgr/webpack'],
+    });
+    return config;
   },
 
   async redirects() {
@@ -44,6 +51,10 @@ const nextConfig = {
   //     },
   //   ];
   // },
+
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
 };
 
 // https://nextjs.org/docs/advanced-features/security-headers

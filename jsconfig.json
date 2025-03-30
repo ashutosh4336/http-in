@@ -3,8 +3,18 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@/app/*": ["./app/*"],
+      "@/utils/*": ["./utils/*"],
+      "@/components/*": ["./src/components/*"],
+      "@/pages/*": ["./pages/*"],
+      "@/styles/*": ["./src/styles/*"],
+      "@/hooks/*": ["./src/hooks/*"],
+      "@/lib/*": ["./lib/*"],
+      "@/constants/*": ["./src/constants/*"],
+      "@/layouts/*": ["./src/layouts/*"]
+      // "@/public/*": ["./src/public/*"]
     }
   },
-  "exclude": ["node_modules", "build"]
+  "exclude": ["node_modules", "build", "public"]
 }

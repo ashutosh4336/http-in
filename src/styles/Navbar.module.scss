@@ -69,13 +69,13 @@
   padding: 0.5rem 0;
   cursor: pointer;
 
-  &:hover {
-    color: #00ff87;
+  // &:hover {
+  //   color: #00ff87;
 
-    .navIcon {
-      color: #00ff87;
-    }
-  }
+  //   .navIcon {
+  //     color: #00ff87;
+  //   }
+  // }
 
   &.active {
     color: #00ff87;
