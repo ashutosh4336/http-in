@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { FaExclamationTriangle } from 'react-icons/fa';
-import Layout from '@/layouts/Wrapper';
+import Layout from '@/layout/Wrapper';
 import styles from '@/styles/404.module.scss';
 
 export default function NotFound() {

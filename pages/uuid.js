@@ -11,7 +11,7 @@ import { VscError } from 'react-icons/vsc';
 import { TiTick } from 'react-icons/ti';
 
 import styles from '@/styles/uuid.module.scss';
-import Layout from '@/layouts/Wrapper';
+import Layout from '@/layout/Wrapper';
 import { notifySuccess, notifyInfo } from '@/utils/notify';
 import CustomAlert from '@/components/Alert/CustomAlert';
 

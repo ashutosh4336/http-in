@@ -1,5 +1,5 @@
 import React from 'react';
-import Layout from '@/layouts/Wrapper';
+import Layout from '@/layout/Wrapper';
 
 const About = () => {
   return (

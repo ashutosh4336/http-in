@@ -1,5 +1,5 @@
 import React from 'react';
-import Layout from '@/layouts/Wrapper';
+import Layout from '@/layout/Wrapper';
 
 export default function Developer() {
   return (
@@ -7,7 +7,7 @@ export default function Developer() {
       <div className='mt-10'>Developer Me</div>
       <div className='globals'>
         <h1>Developer</h1>
-        <a href='https://ashutosh.app' target='_blank' rel='noreferrer'>
+        <a href='https://me.thehttp.in' target='_blank' rel='noreferrer'>
           Visit my Portfolio
         </a>
       </div>

@@ -1,528 +1,756 @@
-const rawStatus = [
-  '100 Continue',
-  '101 Switching Protocols',
-  '102 Processing (WebDAV; RFC 2518)',
-  '103 Early Hints (RFC 8297)',
-  '200 OK',
-  '201 Created',
-  '202 Accepted',
-  '203 Non-Authoritative Information (since HTTP/1.1)',
-  '204 No Content',
-  '205 Reset Content',
-  '206 Partial Content (RFC 7233)',
-  '207 Multi-Status (WebDAV; RFC 4918)',
-  '208 Already Reported (WebDAV; RFC 5842)',
-  '226 IM Used (RFC 3229)',
-  '300 Multiple Choices',
-  '301 Moved Permanently',
-  '302 Found (Previously "Moved temporarily")',
-  '303 See Other (since HTTP/1.1)',
-  '304 Not Modified (RFC 7232)',
-  '305 Use Proxy (since HTTP/1.1)',
-  '306 Switch Proxy',
-  '307 Temporary Redirect (since HTTP/1.1)',
-  '308 Permanent Redirect (RFC 7538)',
-  '400 Bad Request',
-  '401 Unauthorized (RFC 7235)',
-  '402 Payment Required',
-  '403 Forbidden',
-  '404 Not Found',
-  '405 Method Not Allowed',
-  '406 Not Acceptable',
-  '407 Proxy Authentication Required (RFC 7235)',
-  '408 Request Timeout',
-  '409 Conflict',
-  '410 Gone',
-  '411 Length Required',
-  '412 Precondition Failed (RFC 7232)',
-  '413 Payload Too Large (RFC 7231)',
-  '414 URI Too Long (RFC 7231)',
-  '415 Unsupported Media Type (RFC 7231)',
-  '416 Range Not Satisfiable (RFC 7233)',
-  '417 Expectation Failed',
-  "418 I'm a teapot (RFC 2324, RFC 7168)",
-  '421 Misdirected Request (RFC 7540)',
-  '422 Unprocessable Entity (WebDAV; RFC 4918)',
-  '423 Locked (WebDAV; RFC 4918)',
-  '424 Failed Dependency (WebDAV; RFC 4918)',
-  '425 Too Early (RFC 8470)',
-  '426 Upgrade Required',
-  '428 Precondition Required (RFC 6585)',
-  '429 Too Many Requests (RFC 6585)',
-  '431 Request Header Fields Too Large (RFC 6585)',
-  '451 Unavailable For Legal Reasons (RFC 7725)',
-  '500 Internal Server Error',
-  '501 Not Implemented',
-  '502 Bad Gateway',
-  '503 Service Unavailable',
-  '504 Gateway Timeout',
-  '505 HTTP Version Not Supported',
-  '506 Variant Also Negotiates (RFC 2295)',
-  '507 Insufficient Storage (WebDAV; RFC 4918)',
-  '508 Loop Detected (WebDAV; RFC 5842)',
-  '510 Not Extended (RFC 2774)',
-  '511 Network Authentication Required (RFC 6585)',
-  '419 Page Expired (Laravel Framework)',
-  '420 Method Failure (Spring Framework)',
-  '420 Enhance Your Calm (Twitter)',
-  '430 Request Header Fields Too Large (Shopify)',
-  '450 Blocked by Windows Parental Controls (Microsoft)',
-  '498 Invalid Token (Esri)',
-  '499 Token Required (Esri)',
-  '509 Bandwidth Limit Exceeded (Apache Web Server/cPanel)',
-  '529 Site is overloaded',
-  '530 Site is frozen',
-  '598 (Informal convention) Network read timeout error',
-  '599 Network Connect Timeout Error',
-  '440 Login Time-out',
-  '449 Retry With',
-  '451 Redirect',
-  '444 No Response',
-  '494 Request header too large',
-  '495 SSL Certificate Error',
-  '496 SSL Certificate Required',
-  '497 HTTP Request Sent to HTTPS Port',
-  '499 Client Closed Request',
-  '520 Web Server Returned an Unknown Error',
-  '521 Web Server Is Down',
-  '522 Connection Timed Out',
-  '523 Origin Is Unreachable',
-  '524 A Timeout Occurred',
-  '525 SSL Handshake Failed',
-  '526 Invalid SSL Certificate',
-  '527 Railgun Error',
-  '530 Site is frozen',
-  '460 Client closed the connection with the load balancer before the idle timeout period elapsed.',
-  '463 The load balancer received an X-Forwarded-For request header with more than 30 IP addresses.',
-  '561 Unauthorized',
-  '110 Response is Stale',
-  '111 Revalidation Failed',
-  '112 Disconnected Operation',
-  '113 Heuristic Expiration',
-  '199 Miscellaneous Warning',
-  '214 Transformation Applied',
-  '299 Miscellaneous Persistent Warning',
-];
+// const httpStatusCodes = [
+//   // 1xx Informational
+//   {
+//     code: 100,
+//     title: 'Continue',
+//     description:
+//       'The server has received the request headers and the client should proceed to send the request body.',
+//     category: 'Informational',
+//     color: '#2196F3',
+//     details:
+//       'This status code indicates that the initial part of the request has been received and has not yet been rejected by the server.',
+//   },
+//   {
+//     code: 101,
+//     title: 'Switching Protocols',
+//     description:
+//       'The server is switching protocols as requested by the client.',
+//     category: 'Informational',
+//     color: '#2196F3',
+//     details:
+//       'This status code is sent in response to an Upgrade request header from the client and indicates the protocol the server is switching to.',
+//   },
+//   {
+//     code: 102,
+//     title: 'Processing',
+//     description:
+//       'The server has received and is processing the request, but no response is available yet.',
+//     category: 'Informational',
+//     color: '#2196F3',
+//     details:
+//       'This status code indicates that the server has accepted the full request but has not yet completed it.',
+//   },
+//   {
+//     code: 103,
+//     title: 'Early Hints',
+//     description:
+//       'Used to return some response headers before final HTTP message.',
+//     category: 'Informational',
+//     color: '#2196F3',
+//     details:
+//       'This status code is primarily intended to be used with the Link header, letting the user agent start preloading resources while the server prepares a response.',
+//   },
 
-// const statusList = rawStatus.map((status) => {
-//   const [code, ...message] = status.split(' ');
-//   return { code, description: message.join(' ') };
-// });
+//   // 2xx Success
+//   {
+//     code: 200,
+//     title: 'OK',
+//     description: 'The request has succeeded.',
+//     category: 'Success',
+//     color: '#4CAF50',
+//     details:
+//       'The standard response for successful HTTP requests. The actual response will depend on the request method used.',
+//   },
+//   {
+//     code: 201,
+//     title: 'Created',
+//     description:
+//       'The request has succeeded and a new resource has been created as a result.',
+//     category: 'Success',
+//     color: '#4CAF50',
+//     details:
+//       'This is typically the response sent after POST requests, or some PUT requests.',
+//   },
+//   {
+//     code: 202,
+//     title: 'Accepted',
+//     description:
+//       'The request has been accepted for processing, but the processing has not been completed.',
+//     category: 'Success',
+//     color: '#4CAF50',
+//     details:
+//       'The request might or might not eventually be acted upon, as it might be disallowed when processing actually takes place.',
+//   },
+//   {
+//     code: 204,
+//     title: 'No Content',
+//     description:
+//       'There is no content to send for this request, but the headers may be useful.',
+//     category: 'Success',
+//     color: '#4CAF50',
+//     details:
+//       'The user agent may update its cached headers for this resource with the new ones.',
+//   },
+
+//   // 3xx Redirection
+//   {
+//     code: 300,
+//     title: 'Multiple Choices',
+//     description: 'The request has more than one possible response.',
+//     category: 'Redirection',
+//     color: '#FFC107',
+//     details:
+//       'The user agent or user should choose one of them. There is no standardized way of choosing one of the responses.',
+//   },
+//   {
+//     code: 301,
+//     title: 'Moved Permanently',
+//     description:
+//       'The URL of the requested resource has been changed permanently.',
+//     category: 'Redirection',
+//     color: '#FFC107',
+//     details: 'The new URL is given in the response.',
+//   },
+//   {
+//     code: 302,
+//     title: 'Found',
+//     description:
+//       'This response code means that the URI of requested resource has been changed temporarily.',
+//     category: 'Redirection',
+//     color: '#FFC107',
+//     details:
+//       'Further changes in the URI might be made in the future. Therefore, this same URI should be used by the client in future requests.',
+//   },
+
+//   // 4xx Client Errors
+//   {
+//     code: 400,
+//     title: 'Bad Request',
+//     description:
+//       'The server could not understand the request due to invalid syntax.',
+//     category: 'Client Error',
+//     color: '#F44336',
+//     details: 'The client should not repeat this request without modification.',
+//   },
+//   {
+//     code: 401,
+//     title: 'Unauthorized',
+//     description:
+//       'The client must authenticate itself to get the requested response.',
+//     category: 'Client Error',
+//     color: '#F44336',
+//     details:
+//       'This is similar to 403, but in this case, authentication is possible.',
+//   },
+//   {
+//     code: 403,
+//     title: 'Forbidden',
+//     description: 'The client does not have access rights to the content.',
+//     category: 'Client Error',
+//     color: '#F44336',
+//     details: "Unlike 401, the server knows the client's identity.",
+//   },
+//   {
+//     code: 404,
+//     title: 'Not Found',
+//     description: 'The server can not find the requested resource.',
+//     category: 'Client Error',
+//     color: '#F44336',
+//     details:
+//       'This means the server cannot find the requested resource. In an API, this can also mean that the endpoint is valid but the resource itself does not exist.',
+//   },
+
+//   // 5xx Server Errors
+//   {
+//     code: 500,
+//     title: 'Internal Server Error',
+//     description:
+//       'The server has encountered a situation it does not know how to handle.',
+//     category: 'Server Error',
+//     color: '#FF9800',
+//     details:
+//       'This is a generic error message, given when an unexpected condition was encountered and no more specific message is suitable.',
+//   },
+//   {
+//     code: 501,
+//     title: 'Not Implemented',
+//     description:
+//       'The request method is not supported by the server and cannot be handled.',
+//     category: 'Server Error',
+//     color: '#FF9800',
+//     details:
+//       'The server either does not recognize the request method, or it lacks the ability to fulfil the request.',
+//   },
+//   {
+//     code: 502,
+//     title: 'Bad Gateway',
+//     description:
+//       'The server, while acting as a gateway or proxy, received an invalid response from an upstream server.',
+//     category: 'Server Error',
+//     color: '#FF9800',
+//     details:
+//       'This error response means that the server, while working as a gateway to get a response needed to handle the request, got an invalid response.',
+//   },
+//   {
+//     code: 503,
+//     title: 'Service Unavailable',
+//     description: 'The server is not ready to handle the request.',
+//     category: 'Server Error',
+//     color: '#FF9800',
+//     details:
+//       'Common causes are a server that is down for maintenance or that is overloaded.',
+//   },
+
+//   // Custom Status Codes
+//   {
+//     code: 418,
+//     title: "I'm a Teapot",
+//     description: 'The server refuses the attempt to brew coffee with a teapot.',
+//     category: 'Custom',
+//     color: '#9E9E9E',
+//     details:
+//       "This code was defined in 1998 as one of the traditional IETF April Fools' jokes, in RFC 2324, Hyper Text Coffee Pot Control Protocol.",
+//   },
+//   {
+//     code: 429,
+//     title: 'Too Many Requests',
+//     description:
+//       'The user has sent too many requests in a given amount of time.',
+//     category: 'Client Error',
+//     color: '#F44336',
+//     details: 'This response is used when limiting the rate of requests.',
+//   },
+//   {
+//     code: 451,
+//     title: 'Unavailable For Legal Reasons',
+//     description:
+//       'The user requested a resource that is not available due to legal reasons.',
+//     category: 'Client Error',
+//     color: '#F44336',
+//     details:
+//       'This status code indicates that the server is denying access to the resource as a consequence of a legal demand.',
+//   },
+// ];
 
 const httpStatusCodes = [
   {
-    code: '100',
-    description: 'Continue',
-  },
-  {
-    code: '101',
-    description: 'Switching Protocols',
-  },
-  {
-    code: '102',
-    description: 'Processing (WebDAV; RFC 2518)',
-  },
-  {
-    code: '103',
-    description: 'Early Hints (RFC 8297)',
-  },
-  {
-    code: '200',
-    description: 'OK',
-  },
-  {
-    code: '201',
-    description: 'Created',
-  },
-  {
-    code: '202',
-    description: 'Accepted',
-  },
-  {
-    code: '203',
-    description: 'Non-Authoritative Information (since HTTP/1.1)',
-  },
-  {
-    code: '204',
-    description: 'No Content',
-  },
-  {
-    code: '205',
-    description: 'Reset Content',
-  },
-  {
-    code: '206',
-    description: 'Partial Content (RFC 7233)',
-  },
-  {
-    code: '207',
-    description: 'Multi-Status (WebDAV; RFC 4918)',
-  },
-  {
-    code: '208',
-    description: 'Already Reported (WebDAV; RFC 5842)',
-  },
-  {
-    code: '226',
-    description: 'IM Used (RFC 3229)',
-  },
-  {
-    code: '300',
-    description: 'Multiple Choices',
-  },
-  {
-    code: '301',
-    description: 'Moved Permanently',
-  },
-  {
-    code: '302',
-    description: 'Found (Previously "Moved temporarily")',
-  },
-  {
-    code: '303',
-    description: 'See Other (since HTTP/1.1)',
-  },
-  {
-    code: '304',
-    description: 'Not Modified (RFC 7232)',
-  },
-  {
-    code: '305',
-    description: 'Use Proxy (since HTTP/1.1)',
-  },
-  {
-    code: '306',
-    description: 'Switch Proxy',
-  },
-  {
-    code: '307',
-    description: 'Temporary Redirect (since HTTP/1.1)',
-  },
-  {
-    code: '308',
-    description: 'Permanent Redirect (RFC 7538)',
-  },
-  {
-    code: '400',
-    description: 'Bad Request',
-  },
-  {
-    code: '401',
-    description: 'Unauthorized (RFC 7235)',
-  },
-  {
-    code: '402',
-    description: 'Payment Required',
-  },
-  {
-    code: '403',
-    description: 'Forbidden',
-  },
-  {
-    code: '404',
-    description: 'Not Found',
-  },
-  {
-    code: '405',
-    description: 'Method Not Allowed',
-  },
-  {
-    code: '406',
-    description: 'Not Acceptable',
-  },
-  {
-    code: '407',
-    description: 'Proxy Authentication Required (RFC 7235)',
-  },
-  {
-    code: '408',
-    description: 'Request Timeout',
-  },
-  {
-    code: '409',
-    description: 'Conflict',
-  },
-  {
-    code: '410',
-    description: 'Gone',
-  },
-  {
-    code: '411',
-    description: 'Length Required',
-  },
-  {
-    code: '412',
-    description: 'Precondition Failed (RFC 7232)',
-  },
-  {
-    code: '413',
-    description: 'Payload Too Large (RFC 7231)',
-  },
-  {
-    code: '414',
-    description: 'URI Too Long (RFC 7231)',
-  },
-  {
-    code: '415',
-    description: 'Unsupported Media Type (RFC 7231)',
-  },
-  {
-    code: '416',
-    description: 'Range Not Satisfiable (RFC 7233)',
-  },
-  {
-    code: '417',
-    description: 'Expectation Failed',
-  },
-  {
-    code: '418',
-    description: "I'm a teapot (RFC 2324, RFC 7168)",
-  },
-  {
-    code: '421',
-    description: 'Misdirected Request (RFC 7540)',
-  },
-  {
-    code: '422',
-    description: 'Unprocessable Entity (WebDAV; RFC 4918)',
-  },
-  {
-    code: '423',
-    description: 'Locked (WebDAV; RFC 4918)',
-  },
-  {
-    code: '424',
-    description: 'Failed Dependency (WebDAV; RFC 4918)',
-  },
-  {
-    code: '425',
-    description: 'Too Early (RFC 8470)',
-  },
-  {
-    code: '426',
-    description: 'Upgrade Required',
-  },
-  {
-    code: '428',
-    description: 'Precondition Required (RFC 6585)',
-  },
-  {
-    code: '429',
-    description: 'Too Many Requests (RFC 6585)',
-  },
-  {
-    code: '431',
-    description: 'Request Header Fields Too Large (RFC 6585)',
-  },
-  {
-    code: '451',
-    description: 'Unavailable For Legal Reasons (RFC 7725)',
-  },
-  {
-    code: '500',
-    description: 'Internal Server Error',
-  },
-  {
-    code: '501',
-    description: 'Not Implemented',
-  },
-  {
-    code: '502',
-    description: 'Bad Gateway',
-  },
-  {
-    code: '503',
-    description: 'Service Unavailable',
-  },
-  {
-    code: '504',
-    description: 'Gateway Timeout',
-  },
-  {
-    code: '505',
-    description: 'HTTP Version Not Supported',
-  },
-  {
-    code: '506',
-    description: 'Variant Also Negotiates (RFC 2295)',
-  },
-  {
-    code: '507',
-    description: 'Insufficient Storage (WebDAV; RFC 4918)',
-  },
-  {
-    code: '508',
-    description: 'Loop Detected (WebDAV; RFC 5842)',
-  },
-  {
-    code: '510',
-    description: 'Not Extended (RFC 2774)',
-  },
-  {
-    code: '511',
-    description: 'Network Authentication Required (RFC 6585)',
-  },
-  {
-    code: '419',
-    description: 'Page Expired (Laravel Framework)',
-  },
-  {
-    code: '420',
-    description: 'Method Failure (Spring Framework)',
-  },
-  {
-    code: '420',
-    description: 'Enhance Your Calm (Twitter)',
-  },
-  {
-    code: '430',
-    description: 'Request Header Fields Too Large (Shopify)',
-  },
-  {
-    code: '450',
-    description: 'Blocked by Windows Parental Controls (Microsoft)',
-  },
-  {
-    code: '498',
-    description: 'Invalid Token (Esri)',
-  },
-  {
-    code: '499',
-    description: 'Token Required (Esri)',
-  },
-  {
-    code: '509',
-    description: 'Bandwidth Limit Exceeded (Apache Web Server/cPanel)',
-  },
-  {
-    code: '529',
-    description: 'Site is overloaded',
-  },
-  {
-    code: '530',
-    description: 'Site is frozen',
-  },
-  {
-    code: '598',
-    description: '(Informal convention) Network read timeout error',
-  },
-  {
-    code: '599',
-    description: 'Network Connect Timeout Error',
-  },
-  {
-    code: '440',
-    description: 'Login Time-out',
-  },
-  {
-    code: '449',
-    description: 'Retry With',
-  },
-  {
-    code: '451',
-    description: 'Redirect',
-  },
-  {
-    code: '444',
-    description: 'No Response',
-  },
-  {
-    code: '494',
-    description: 'Request header too large',
-  },
-  {
-    code: '495',
-    description: 'SSL Certificate Error',
-  },
-  {
-    code: '496',
-    description: 'SSL Certificate Required',
-  },
-  {
-    code: '497',
-    description: 'HTTP Request Sent to HTTPS Port',
-  },
-  {
-    code: '499',
-    description: 'Client Closed Request',
-  },
-  {
-    code: '520',
-    description: 'Web Server Returned an Unknown Error',
-  },
-  {
-    code: '521',
-    description: 'Web Server Is Down',
-  },
-  {
-    code: '522',
-    description: 'Connection Timed Out',
-  },
-  {
-    code: '523',
-    description: 'Origin Is Unreachable',
-  },
-  {
-    code: '524',
-    description: 'A Timeout Occurred',
-  },
-  {
-    code: '525',
-    description: 'SSL Handshake Failed',
-  },
-  {
-    code: '526',
-    description: 'Invalid SSL Certificate',
-  },
-  {
-    code: '527',
-    description: 'Railgun Error',
-  },
-  {
-    code: '530',
-    description: 'Site is frozen',
-  },
-  {
-    code: '460',
+    code: 100,
+    title: 'Continue',
     description:
-      'Client closed the connection with the load balancer before the idle timeout period elapsed.',
+      'The server has received the request headers, and the client should proceed to send the request body.',
+    category: 'Informational',
+    color: '#2196F3',
+    details:
+      'The server is ready to receive the request body. Often used in a two-step request process.',
   },
   {
-    code: '463',
+    code: 101,
+    title: 'Switching Protocols',
+    description: 'The requester has asked the server to switch protocols.',
+    category: 'Informational',
+    color: '#2196F3',
+    details:
+      'The server is switching to the protocol that was requested by the client.',
+  },
+  {
+    code: 102,
+    title: 'Processing',
     description:
-      'The load balancer received an X-Forwarded-For request header with more than 30 IP addresses.',
+      'The server has received and is processing the request, but no response is available yet.',
+    category: 'Informational',
+    color: '#2196F3',
+    details:
+      'Primarily used with WebDAV, indicating that the request is being processed.',
   },
   {
-    code: '561',
-    description: 'Unauthorized',
+    code: 103,
+    title: 'Early Hints',
+    description:
+      'Used to return some response headers before final HTTP message.',
+    category: 'Informational',
+    color: '#2196F3',
+    details:
+      'Helps improve performance by sending preliminary headers before the full response.',
   },
   {
-    code: '110',
-    description: 'Response is Stale',
+    code: 200,
+    title: 'OK',
+    description: 'The request has succeeded.',
+    category: 'Success',
+    color: '#4CAF50',
+    details: 'Standard response for successful HTTP requests.',
   },
   {
-    code: '111',
-    description: 'Revalidation Failed',
+    code: 201,
+    title: 'Created',
+    description:
+      'The request has been fulfilled and resulted in a new resource being created.',
+    category: 'Success',
+    color: '#4CAF50',
+    details: 'Commonly used after POST requests for resource creation.',
   },
   {
-    code: '112',
-    description: 'Disconnected Operation',
+    code: 202,
+    title: 'Accepted',
+    description:
+      'The request has been accepted for processing, but the processing has not been completed.',
+    category: 'Success',
+    color: '#4CAF50',
+    details: 'Used when the action will be processed asynchronously.',
   },
   {
-    code: '113',
-    description: 'Heuristic Expiration',
+    code: 203,
+    title: 'Non-Authoritative Information',
+    description:
+      'The server is a transforming proxy and received non-authoritative response.',
+    category: 'Success',
+    color: '#4CAF50',
+    details: 'Information returned may be modified from the origin server.',
   },
   {
-    code: '199',
-    description: 'Miscellaneous Warning',
+    code: 204,
+    title: 'No Content',
+    description:
+      'The server successfully processed the request and is not returning any content.',
+    category: 'Success',
+    color: '#4CAF50',
+    details: 'Typically used when a response body is not required.',
   },
   {
-    code: '214',
-    description: 'Transformation Applied',
+    code: 205,
+    title: 'Reset Content',
+    description:
+      'The server successfully processed the request, and is asking the client to reset the document view.',
+    category: 'Success',
+    color: '#4CAF50',
+    details:
+      'Tells the client to reset the view of the document (e.g., form reset).',
   },
   {
-    code: '299',
-    description: 'Miscellaneous Persistent Warning',
+    code: 206,
+    title: 'Partial Content',
+    description:
+      'The server is delivering only part of the resource due to a range header sent by the client.',
+    category: 'Success',
+    color: '#4CAF50',
+    details: 'Used for partial downloads, like video streaming.',
+  },
+  {
+    code: 207,
+    title: 'Multi-Status',
+    description: 'The message body contains multiple status codes.',
+    category: 'Success',
+    color: '#4CAF50',
+    details: 'Used in WebDAV responses with multiple resources.',
+  },
+  {
+    code: 208,
+    title: 'Already Reported',
+    description: 'The members of a DAV binding have already been enumerated.',
+    category: 'Success',
+    color: '#4CAF50',
+    details: 'Prevents repeated enumeration of internal members.',
+  },
+  {
+    code: 226,
+    title: 'IM Used',
+    description:
+      'The server has fulfilled a GET request for the resource with instance manipulations applied.',
+    category: 'Success',
+    color: '#4CAF50',
+    details: 'Delta encoding of resources.',
+  },
+  {
+    code: 300,
+    title: 'Multiple Choices',
+    description: 'The request has more than one possible response.',
+    category: 'Redirection',
+    color: '#FFC107',
+    details:
+      'The user agent or user should choose one of them. There is no standardized way of choosing one of the responses.',
+  },
+  {
+    code: 301,
+    title: 'Moved Permanently',
+    description:
+      'The URL of the requested resource has been changed permanently.',
+    category: 'Redirection',
+    color: '#FFC107',
+    details: 'The new URL is given in the response.',
+  },
+  {
+    code: 302,
+    title: 'Found',
+    description: 'The URI of requested resource has been changed temporarily.',
+    category: 'Redirection',
+    color: '#FFC107',
+    details: 'Used for temporary redirection.',
+  },
+  {
+    code: 303,
+    title: 'See Other',
+    description:
+      'The response to the request can be found under another URI using a GET method.',
+    category: 'Redirection',
+    color: '#FFC107',
+    details: 'Often used for redirecting after form submission.',
+  },
+  {
+    code: 304,
+    title: 'Not Modified',
+    description: 'The resource has not been modified since the last request.',
+    category: 'Redirection',
+    color: '#FFC107',
+    details: 'Used for caching purposes.',
+  },
+  {
+    code: 305,
+    title: 'Use Proxy',
+    description: 'The requested resource is only available through a proxy.',
+    category: 'Redirection',
+    color: '#FFC107',
+    details: 'Deprecated due to security concerns.',
+  },
+  {
+    code: 306,
+    title: 'Switch Proxy',
+    description: 'No longer used.',
+    category: 'Redirection',
+    color: '#FFC107',
+    details: 'Reserved for future use.',
+  },
+  {
+    code: 307,
+    title: 'Temporary Redirect',
+    description:
+      'The request should be repeated with another URI; future requests should still use the original URI.',
+    category: 'Redirection',
+    color: '#FFC107',
+    details: 'Preserves request method.',
+  },
+  {
+    code: 308,
+    title: 'Permanent Redirect',
+    description: 'The resource is now permanently located at another URI.',
+    category: 'Redirection',
+    color: '#FFC107',
+    details: 'Preserves method and body during redirection.',
+  },
+  {
+    code: 400,
+    title: 'Bad Request',
+    description:
+      'The server could not understand the request due to invalid syntax.',
+    category: 'Client Error',
+    color: '#F44336',
+    details: 'The client should not repeat the request without modifications.',
+  },
+  {
+    code: 401,
+    title: 'Unauthorized',
+    description:
+      'The client must authenticate itself to get the requested response.',
+    category: 'Client Error',
+    color: '#F44336',
+    details:
+      'Authentication is required and has failed or has not yet been provided.',
+  },
+  {
+    code: 402,
+    title: 'Payment Required',
+    description: 'This response code is reserved for future use.',
+    category: 'Client Error',
+    color: '#F44336',
+    details: 'Originally intended for digital payment systems.',
+  },
+  {
+    code: 403,
+    title: 'Forbidden',
+    description: 'The client does not have access rights to the content.',
+    category: 'Client Error',
+    color: '#F44336',
+    details: "Authentication won't help here.",
+  },
+  {
+    code: 404,
+    title: 'Not Found',
+    description: 'The server can not find the requested resource.',
+    category: 'Client Error',
+    color: '#F44336',
+    details: 'The resource may have been deleted or never existed.',
+  },
+  {
+    code: 405,
+    title: 'Method Not Allowed',
+    description:
+      'The request method is known by the server but is not supported by the target resource.',
+    category: 'Client Error',
+    color: '#F44336',
+    details: 'The method is not allowed for the requested URL.',
+  },
+  {
+    code: 406,
+    title: 'Not Acceptable',
+    description:
+      'The requested resource is capable of generating only content not acceptable according to the Accept headers.',
+    category: 'Client Error',
+    color: '#F44336',
+    details: 'Occurs during content negotiation.',
+  },
+  {
+    code: 407,
+    title: 'Proxy Authentication Required',
+    description: 'The client must first authenticate itself with the proxy.',
+    category: 'Client Error',
+    color: '#F44336',
+    details: 'Similar to 401, but for proxy authentication.',
+  },
+  {
+    code: 408,
+    title: 'Request Timeout',
+    description: 'The server timed out waiting for the request.',
+    category: 'Client Error',
+    color: '#F44336',
+    details:
+      'Client did not produce a request within the time that the server was prepared to wait.',
+  },
+  {
+    code: 409,
+    title: 'Conflict',
+    description:
+      'The request could not be processed because of conflict in the request.',
+    category: 'Client Error',
+    color: '#F44336',
+    details: 'Usually occurs with resource state conflicts.',
+  },
+  {
+    code: 410,
+    title: 'Gone',
+    description:
+      'The resource requested is no longer available and will not be available again.',
+    category: 'Client Error',
+    color: '#F44336',
+    details: 'Used when a resource has been intentionally removed.',
+  },
+  {
+    code: 411,
+    title: 'Length Required',
+    description:
+      'The request did not specify the length of its content, which is required by the resource.',
+    category: 'Client Error',
+    color: '#F44336',
+    details: 'Content-Length header is required.',
+  },
+  {
+    code: 412,
+    title: 'Precondition Failed',
+    description:
+      'The server does not meet one of the preconditions that the requester put on the request.',
+    category: 'Client Error',
+    color: '#F44336',
+    details: 'Used for conditional requests.',
+  },
+  {
+    code: 413,
+    title: 'Payload Too Large',
+    description:
+      'The request is larger than the server is willing or able to process.',
+    category: 'Client Error',
+    color: '#F44336',
+    details: 'Usually due to a large file upload.',
+  },
+  {
+    code: 414,
+    title: 'URI Too Long',
+    description: 'The URI provided was too long for the server to process.',
+    category: 'Client Error',
+    color: '#F44336',
+    details: 'Often due to excessively long query strings.',
+  },
+  {
+    code: 415,
+    title: 'Unsupported Media Type',
+    description:
+      'The request entity has a media type which the server or resource does not support.',
+    category: 'Client Error',
+    color: '#F44336',
+    details: 'Used when the server refuses to accept the request payload.',
+  },
+  {
+    code: 416,
+    title: 'Range Not Satisfiable',
+    description:
+      "The range specified by the Range header field in the request can't be fulfilled.",
+    category: 'Client Error',
+    color: '#F44336',
+    details: 'Requested range not available.',
+  },
+  {
+    code: 417,
+    title: 'Expectation Failed',
+    description:
+      'The server cannot meet the requirements of the Expect request-header field.',
+    category: 'Client Error',
+    color: '#F44336',
+    details: 'The expectation given in the request could not be met.',
+  },
+  {
+    code: 418,
+    title: "I'm a teapot",
+    description: 'The server refuses the attempt to brew coffee with a teapot.',
+    category: 'Client Error',
+    color: '#F44336',
+    details: "Defined in RFC 2324, an April Fools' joke.",
+  },
+  {
+    code: 422,
+    title: 'Unprocessable Entity',
+    description:
+      'The request was well-formed but was unable to be followed due to semantic errors.',
+    category: 'Client Error',
+    color: '#F44336',
+    details: 'Common in WebDAV and REST APIs.',
+  },
+  {
+    code: 425,
+    title: 'Too Early',
+    description:
+      'Indicates that the server is unwilling to risk processing a request that might be replayed.',
+    category: 'Client Error',
+    color: '#F44336',
+    details: 'Used with early data in TLS 1.3.',
+  },
+  {
+    code: 426,
+    title: 'Upgrade Required',
+    description: 'The client should switch to a different protocol.',
+    category: 'Client Error',
+    color: '#F44336',
+    details:
+      'The server refuses to perform the request using the current protocol.',
+  },
+  {
+    code: 428,
+    title: 'Precondition Required',
+    description: 'The origin server requires the request to be conditional.',
+    category: 'Client Error',
+    color: '#F44336',
+    details: 'Used to prevent lost updates.',
+  },
+  {
+    code: 429,
+    title: 'Too Many Requests',
+    description:
+      'The user has sent too many requests in a given amount of time.',
+    category: 'Client Error',
+    color: '#F44336',
+    details: 'Rate limiting error.',
+  },
+  {
+    code: 431,
+    title: 'Request Header Fields Too Large',
+    description:
+      'The server is unwilling to process the request because its header fields are too large.',
+    category: 'Client Error',
+    color: '#F44336',
+    details: 'Request headers too large.',
+  },
+  {
+    code: 451,
+    title: 'Unavailable For Legal Reasons',
+    description:
+      'The user requests an illegal resource, such as a web page censored by a government.',
+    category: 'Client Error',
+    color: '#F44336',
+    details: 'Used when access is denied for legal reasons.',
+  },
+  {
+    code: 500,
+    title: 'Internal Server Error',
+    description:
+      "The server has encountered a situation it doesn't know how to handle.",
+    category: 'Server Error',
+    color: '#9C27B0',
+    details: 'Generic server error.',
+  },
+  {
+    code: 501,
+    title: 'Not Implemented',
+    description:
+      'The request method is not supported by the server and cannot be handled.',
+    category: 'Server Error',
+    color: '#9C27B0',
+    details: 'The server does not recognize the request method.',
+  },
+  {
+    code: 502,
+    title: 'Bad Gateway',
+    description:
+      'The server, while acting as a gateway or proxy, received an invalid response from the upstream server.',
+    category: 'Server Error',
+    color: '#9C27B0',
+    details: 'Usually indicates network errors.',
+  },
+  {
+    code: 503,
+    title: 'Service Unavailable',
+    description: 'The server is not ready to handle the request.',
+    category: 'Server Error',
+    color: '#9C27B0',
+    details: 'Often due to maintenance or server overload.',
+  },
+  {
+    code: 504,
+    title: 'Gateway Timeout',
+    description:
+      'The server is acting as a gateway and cannot get a response in time.',
+    category: 'Server Error',
+    color: '#9C27B0',
+    details: 'Timeout from upstream server.',
+  },
+  {
+    code: 505,
+    title: 'HTTP Version Not Supported',
+    description:
+      'The HTTP version used in the request is not supported by the server.',
+    category: 'Server Error',
+    color: '#9C27B0',
+    details: 'Server does not support the HTTP protocol version.',
+  },
+  {
+    code: 506,
+    title: 'Variant Also Negotiates',
+    description:
+      'Transparent content negotiation for the request results in a circular reference.',
+    category: 'Server Error',
+    color: '#9C27B0',
+    details: 'Server configuration error.',
+  },
+  {
+    code: 507,
+    title: 'Insufficient Storage',
+    description:
+      'The server is unable to store the representation needed to complete the request.',
+    category: 'Server Error',
+    color: '#9C27B0',
+    details: 'Used in WebDAV.',
+  },
+  {
+    code: 508,
+    title: 'Loop Detected',
+    description:
+      'The server detected an infinite loop while processing a request.',
+    category: 'Server Error',
+    color: '#9C27B0',
+    details: 'Typically with WebDAV.',
+  },
+  {
+    code: 510,
+    title: 'Not Extended',
+    description:
+      'Further extensions to the request are required for the server to fulfill it.',
+    category: 'Server Error',
+    color: '#9C27B0',
+    details:
+      'The policy for accessing the resource requires further extensions.',
+  },
+  {
+    code: 511,
+    title: 'Network Authentication Required',
+    description: 'The client needs to authenticate to gain network access.',
+    category: 'Server Error',
+    color: '#9C27B0',
+    details: 'Commonly used for captive portals.',
   },
 ];
 

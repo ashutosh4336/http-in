@@ -4,6 +4,7 @@
     "flowbite",
     "HTTPIN",
     "middlewares",
+    "noopener",
     "noreferrer",
     "rediss",
     "statuscodes",

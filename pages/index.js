@@ -1,53 +1,218 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { motion } from 'framer-motion';
 import styles from '@/styles/Home.module.scss';
-import Layout from '@/layouts/Wrapper';
-
-import CustomAlert from '@/components/Alert/CustomAlert';
-import { AiFillInfoCircle } from 'react-icons/ai';
+import Layout from '@/layout/Wrapper';
+import {
+  FaServer,
+  FaNetworkWired,
+  FaShieldAlt,
+  FaGlobe,
+  FaArrowRight,
+} from 'react-icons/fa';
+import Link from 'next/link';
 
 export default function Home() {
   return (
-    <Layout htmlClasses={' layout12345'}>
-      <div className={`${styles.container}`}>
-        <main>
-          <p
-            className={`${styles.curlLink} mt-4 text-center text-2xl font-bold underline`}
+    <Layout>
+      <div className={styles.container}>
+        {/* Hero Section */}
+        <section className={styles.hero}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className={styles.heroContent}
           >
-            curl -X GET https://thehttp.in/api/ping
-          </p>
-          <hr
-            style={{
-              width: '100%',
-              height: '1px',
-              backgroundColor: '#000',
-              border: 'none',
-              margin: '20px 0',
-            }}
-          />
-          <CustomAlert
-            textAlign={'left'}
-            textColor={'#fff'}
-            backgroundColor={'red'}
-            padding={'10px'}
-            margin={'10px 0'}
-            closeIconColor={'#fff'}
-            height={'3rem'}
-            border={'1px solid #333'}
+            <h1>Understanding HTTP & Web Protocols</h1>
+            <p>
+              Explore the world of web communication, DNS, and networking
+              protocols
+            </p>
+            <div className={styles.heroButtons}>
+              <Link href='/codes' className={styles.primaryButton}>
+                <span>
+                  Browse Status Codes <FaArrowRight />
+                </span>
+              </Link>
+              <Link href='/docs' className={styles.secondaryButton}>
+                <span>Read Documentation</span>
+              </Link>
+            </div>
+          </motion.div>
+        </section>
+
+        {/* Features Section */}
+        <section className={styles.features}>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <span>
-              <AiFillInfoCircle
-                style={{
-                  display: 'inline-block',
-                  marginRight: '0.5rem',
-                  // marginTop: '-0.5rem',
-                  color: '#fff',
-                  fontSize: '1.5rem',
-                }}
-              />{' '}
-              This is a danger alert Lorem ipsum, sdfsdfdsfdsfdsf
-            </span>
-          </CustomAlert>
-        </main>
+            Explore Our Features
+          </motion.h2>
+          <div className={styles.featureGrid}>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className={styles.featureCard}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              <FaServer className={styles.featureIcon} />
+              <h3>HTTP Status Codes</h3>
+              <p>Comprehensive guide to HTTP status codes and their meanings</p>
+              <Link href='/codes' className={styles.featureLink}>
+                <span>
+                  Learn More <FaArrowRight />
+                </span>
+              </Link>
+            </motion.div>
+
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className={styles.featureCard}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
+              <FaNetworkWired className={styles.featureIcon} />
+              <h3>DNS & Caching</h3>
+              <p>Learn about DNS resolution and caching mechanisms</p>
+              <Link href='/docs#dns' className={styles.featureLink}>
+                <span>
+                  Learn More <FaArrowRight />
+                </span>
+              </Link>
+            </motion.div>
+
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className={styles.featureCard}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+            >
+              <FaShieldAlt className={styles.featureIcon} />
+              <h3>Security Protocols</h3>
+              <p>Understanding HTTPS, SSL/TLS, and web security</p>
+              <Link href='/docs#security' className={styles.featureLink}>
+                <span>
+                  Learn More <FaArrowRight />
+                </span>
+              </Link>
+            </motion.div>
+
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className={styles.featureCard}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+            >
+              <FaGlobe className={styles.featureIcon} />
+              <h3>Web Communication</h3>
+              <p>Explore how data flows across the internet</p>
+              <Link href='/docs#communication' className={styles.featureLink}>
+                <span>
+                  Learn More <FaArrowRight />
+                </span>
+              </Link>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* How Web Works Section */}
+        <section className={styles.howWebWorks}>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.7 }}
+          >
+            How the Web Works
+          </motion.h2>
+          <div className={styles.processSteps}>
+            {[
+              {
+                number: '1',
+                title: 'DNS Resolution',
+                description:
+                  'When you enter a URL, your browser first needs to find the IP address of the server. This is done through DNS resolution, where your request goes through various DNS servers until it finds the correct IP address.',
+              },
+              {
+                number: '2',
+                title: 'TCP Connection',
+                description:
+                  'Once the IP is found, your browser establishes a TCP connection with the server through a three-way handshake process, ensuring reliable communication.',
+              },
+              {
+                number: '3',
+                title: 'HTTP Request',
+                description:
+                  'Your browser sends an HTTP request to the server, specifying the resource you want to access and any additional headers or data.',
+              },
+              {
+                number: '4',
+                title: 'Server Response',
+                description:
+                  'The server processes your request and sends back an HTTP response with the requested resource and a status code indicating the result.',
+              },
+            ].map((step, index) => (
+              <motion.div
+                key={step.number}
+                className={styles.step}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
+              >
+                <div className={styles.stepNumber}>{step.number}</div>
+                <h3>{step.title}</h3>
+                <p>{step.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        {/* DNS Caching Section */}
+        <section className={styles.dnsCaching}>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 1.2 }}
+          >
+            DNS Caching
+          </motion.h2>
+          <div className={styles.cachingInfo}>
+            <motion.div
+              className={styles.cachingLevels}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 1.3 }}
+            >
+              <h3>Levels of DNS Caching</h3>
+              <ul>
+                <li>Browser DNS Cache</li>
+                <li>Operating System DNS Cache</li>
+                <li>Router DNS Cache</li>
+                <li>ISP DNS Cache</li>
+                <li>Root DNS Servers</li>
+              </ul>
+            </motion.div>
+            <motion.div
+              className={styles.cachingBenefits}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 1.4 }}
+            >
+              <h3>Benefits of DNS Caching</h3>
+              <ul>
+                <li>Faster website loading times</li>
+                <li>Reduced load on DNS servers</li>
+                <li>Improved reliability</li>
+                <li>Better user experience</li>
+              </ul>
+            </motion.div>
+          </div>
+        </section>
       </div>
     </Layout>
   );

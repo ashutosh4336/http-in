@@ -5,8 +5,8 @@ import Head from 'next/head';
 import { ToastContainer } from 'react-toastify';
 import PropTypes from 'prop-types';
 import styles from '@/styles/Layouts.module.scss';
-import Navbar from '@/layouts/Navbar';
-import Footer from '@/layouts/Footer';
+import Navbar from '@/layout/Navbar';
+import Footer from '@/layout/Footer';
 
 Layout.propTypes = {
   title: PropTypes.string,
@@ -40,7 +40,7 @@ export default function Layout({
         <link rel='icon' href={faviconIcon} />
       </Head>
 
-      <section className={styles.navSection}>{/* <Navbar /> */}</section>
+      <Navbar />
 
       <main className={styles.container}>{children}</main>
 

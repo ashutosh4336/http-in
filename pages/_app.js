@@ -1,5 +1,5 @@
 // add bootstrap css
-import '../styles/globals.scss';
+import '../src/styles/globals.scss';
 import { useEffect } from 'react';
 import { Analytics } from '@vercel/analytics/react';
 import router from 'next/router';
@@ -94,7 +94,7 @@ function MyApp({ Component, pageProps }) {
         }}
       />
       <Component {...pageProps} />
-      <Analytics />
+      {process.env.NODE_ENV === 'production' && <Analytics />}
     </>
   );
 }
