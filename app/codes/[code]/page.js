@@ -6,6 +6,7 @@ import Link from 'next/link';
 import styles from '@/styles/Codes.module.scss';
 import { httpStatusCodes as statusCodes } from '@/data/statusCodes';
 import { getCategoryAndColor } from '@/utils/util';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 export default function StatusCodePage() {
   const { code } = useParams();
@@ -23,7 +24,7 @@ export default function StatusCodePage() {
               <div className={styles.noResultsCode}>404</div>
             </div>
             <Link href='/codes' className={styles.moreButton}>
-              Back to All Status Codes
+              <FaArrowLeft /> Back to All Status Codes
             </Link>
           </div>
         </div>
@@ -66,15 +67,15 @@ export default function StatusCodePage() {
 
         <div className={styles.buttonContainer}>
           <Link href='/codes' className={styles.backButton}>
-            Back to All Status Codes
+            <FaArrowLeft /> Back to All Status Codes
           </Link>
           <Link
             href={`/codes/${code}/raw`}
             target='_blank'
             rel='noopener noreferrer'
-            className={styles.rawLink}
+            className={styles.backButton}
           >
-            View Raw JSON
+            View Raw JSON <FaArrowRight />
           </Link>
         </div>
       </div>
