@@ -12,6 +12,8 @@ import {
   FaBook,
   FaGithub,
 } from 'react-icons/fa';
+import { PiBarcodeLight } from 'react-icons/pi';
+
 import Logo from '@/components/Logo';
 
 const Navbar = () => {
@@ -32,6 +34,7 @@ const Navbar = () => {
 
   const navItems = [
     // { name: 'Home', path: '/', icon: FaHome },
+    { name: 'UUID', path: '/uuid', icon: PiBarcodeLight },
     { name: 'Status Codes', path: '/codes', icon: FaCode },
     { name: 'Documentation', path: '/docs', icon: FaBook },
   ];

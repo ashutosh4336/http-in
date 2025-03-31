@@ -5,27 +5,11 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import styles from '@/styles/Codes.module.scss';
 import { httpStatusCodes as statusCodes } from '@/data/statusCodes';
-
-// Helper function to determine category and color based on status code
-const getCategoryAndColor = (code) => {
-  if (code >= 100 && code < 200) {
-    return { category: 'Informational', color: '#2196F3' };
-  } else if (code >= 200 && code < 300) {
-    return { category: 'Success', color: '#4CAF50' };
-  } else if (code >= 300 && code < 400) {
-    return { category: 'Redirection', color: '#FFC107' };
-  } else if (code >= 400 && code < 500) {
-    return { category: 'Client Error', color: '#F44336' };
-  } else if (code >= 500 && code < 600) {
-    return { category: 'Server Error', color: '#FF9800' };
-  } else {
-    return { category: 'Custom', color: '#9E9E9E' };
-  }
-};
+import { getCategoryAndColor } from '@/utils/util';
 
 export default function StatusCodePage() {
-  const params = useParams();
-  const code = params.code;
+  const { code } = useParams();
+
   const statusCode = statusCodes.find((sc) => sc.code === parseInt(code));
 
   if (!statusCode) {

@@ -1,140 +1,20 @@
 'use client';
 
-import React, { useState } from 'react';
-// import Layout from '@/app/layout';
-import { motion } from 'framer-motion';
 import styles from '@/styles/Codes.module.scss';
-// import StatusCard from '@/components/StatusCard';
-import { httpStatusCodes } from '@/data/statusCodes';
-import Link from 'next/link';
-
-// Helper function to determine category and color based on status code
-const getCategoryAndColor = (code) => {
-  if (code >= 100 && code < 200) {
-    return { category: 'Informational', color: '#2196F3' };
-  } else if (code >= 200 && code < 300) {
-    return { category: 'Success', color: '#4CAF50' };
-  } else if (code >= 300 && code < 400) {
-    return { category: 'Redirection', color: '#FFC107' };
-  } else if (code >= 400 && code < 500) {
-    return { category: 'Client Error', color: '#F44336' };
-  } else if (code >= 500 && code < 600) {
-    return { category: 'Server Error', color: '#FF9800' };
-  } else {
-    return { category: 'Custom', color: '#9E9E9E' };
-  }
-};
+import React, { useState } from 'react';
+import { httpStatusCodes as statusCodes } from '@/data/statusCodes';
+import StatusCard from '@/components/Codes/StatusCard';
+import Modal from '@/components/Codes/Modal';
+import NoResults from '@/components/Codes/NoResult';
+import { getCategoryAndColor } from '@/utils/util';
 
 // Process the status codes to include category and color
-const processedStatusCodes = httpStatusCodes.map((code) => ({
+const processedStatusCodes = statusCodes.map((code) => ({
   ...code,
   title: code.title.trim(),
   description: code.description.split('(')[0].trim(),
   ...getCategoryAndColor(code.code),
 }));
-
-const StatusCard = ({
-  code,
-  title,
-  description,
-  category,
-  color,
-  details,
-  onMoreInfo,
-}) => {
-  // Convert category to class name (lowercase and remove spaces)
-  const categoryClass = category.toLowerCase().replace(/\s+/g, '');
-
-  return (
-    <motion.div
-      className={`${styles.card} ${styles[categoryClass]}`}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      style={{
-        '--button-color': color,
-        '--button-hover-bg': color,
-        '--button-hover-text': '#ffffff',
-      }}
-    >
-      <div className={styles.cardImage} style={{ backgroundColor: color }}>
-        <div className={styles.statusCode}>{code}</div>
-      </div>
-      <div className={styles.cardContent}>
-        <div className={styles.cardHeader}>
-          <h3>{title}</h3>
-          <span className={styles.category} style={{ backgroundColor: color }}>
-            {category}
-          </span>
-        </div>
-        <p className={styles.description}>{description}</p>
-        <div className={styles.cardActions}>
-          <button
-            className={styles.moreButton}
-            onClick={() =>
-              onMoreInfo({ code, title, description, category, color, details })
-            }
-          >
-            Quick View
-          </button>
-
-          <Link href={`/codes/${code}`}>
-            <button className={styles.moreButton}>View Details</button>
-          </Link>
-        </div>
-      </div>
-    </motion.div>
-  );
-};
-
-const Modal = ({ isOpen, onClose, data }) => {
-  if (!isOpen) return null;
-
-  return (
-    <div className={styles.modalOverlay} onClick={onClose}>
-      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-        <div className={styles.modalHeader}>
-          <h2>
-            {data.code} - {data.title}
-          </h2>
-          <button className={styles.closeButton} onClick={onClose}>
-            &times;
-          </button>
-        </div>
-        <div className={styles.modalContent}>
-          <span
-            className={styles.category}
-            style={{ backgroundColor: data.color }}
-          >
-            {data.category}
-          </span>
-          <p className={styles.description}>{data.description}</p>
-          <p className={styles.details}>{data.details}</p>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const NoResults = ({ searchTerm, selectedCategory }) => {
-  return (
-    <div className={styles.noResults}>
-      <div className={styles.noResultsContent}>
-        <h2>No Status Codes Found</h2>
-        <p>
-          {searchTerm
-            ? `No status codes found matching "${searchTerm}"`
-            : selectedCategory !== 'all'
-            ? `No status codes found in the ${selectedCategory} category`
-            : 'No status codes available'}
-        </p>
-        <div className={styles.noResultsImage}>
-          <div className={styles.noResultsCode}>404</div>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 const CodesPage = () => {
   const [searchTerm, setSearchTerm] = useState('');

@@ -1,95 +1,116 @@
 'use client';
 
-import React, { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import { useState } from 'react';
+import {
+  v4 as uuidv4,
+  validate as uuidValidate,
+  version as uuidVersion,
+} from 'uuid';
 import styles from '@/styles/Uuid.module.scss';
 
 export default function UuidPage() {
   const [count, setCount] = useState(1);
-  const [generatedUuids, setGeneratedUuids] = useState([]);
-  const [uuidToValidate, setUuidToValidate] = useState('');
+  const [uuids, setUuids] = useState([]);
+  const [validationInput, setValidationInput] = useState('');
   const [validationResult, setValidationResult] = useState(null);
 
   const generateUuids = () => {
-    const countNum = Math.min(Math.max(1, parseInt(count) || 1), 10);
-    const uuids = Array(countNum)
-      .fill()
-      .map(() => uuidv4());
-    console.log(uuids);
-    setGeneratedUuids(uuids);
+    const newUuids = Array.from({ length: count }, () => uuidv4());
+    setUuids(newUuids);
+  };
+
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text);
   };
 
   const validateUuid = (uuid) => {
-    const uuidRegex =
-      /^[0-9a-f]{8}-[0-9a-f]{4}-[4][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-    const isValid = uuidRegex.test(uuid);
-    setValidationResult(isValid);
+    const isValid = uuidValidate(uuid);
+    const version = isValid ? uuidVersion(uuid) : null;
+
+    if (!isValid) {
+      return {
+        isValid: false,
+        message: 'Invalid UUID format',
+      };
+    }
+
+    return {
+      isValid: true,
+      message: `Valid UUID for version: ${version}`,
+    };
+  };
+
+  const handleValidationChange = (e) => {
+    const value = e.target.value;
+    setValidationInput(value);
+    if (value) {
+      setValidationResult(validateUuid(value));
+    } else {
+      setValidationResult(null);
+    }
   };
 
   return (
-    <div className={styles.container}>
-      <section className={styles.section}>
-        <h1>UUID Generator</h1>
-        <p>Generate unique UUIDs (v4)</p>
-
-        <div className={styles.inputGroup}>
-          <input
-            type='number'
-            min='1'
-            max='10'
-            value={count}
-            onChange={(e) => setCount(e.target.value)}
-            className={styles.input}
-          />
-          <button onClick={generateUuids} className={styles.button}>
-            Generate
-          </button>
-        </div>
-
-        {generatedUuids.length > 0 && (
+    <div className={styles.uuidIdPage}>
+      <div className={styles.container}>
+        <div className={styles.section}>
+          <h1>UUID Generator</h1>
+          <p>Generate UUIDs v4 with a single click</p>
+          <div className={styles.inputGroup}>
+            <input
+              type='number'
+              min='1'
+              max='10'
+              value={count}
+              onChange={(e) =>
+                setCount(
+                  Math.min(10, Math.max(1, parseInt(e.target.value) || 1))
+                )
+              }
+              className={styles.input}
+            />
+            <button onClick={generateUuids} className={styles.button}>
+              Generate
+            </button>
+          </div>
           <div className={styles.output}>
-            {generatedUuids.map((uuid) => (
-              <div key={uuid} className={styles.uuidItem}>
+            {uuids.map((uuid, index) => (
+              <div key={index} className={styles.uuidItem}>
                 <span>{uuid}</span>
                 <button
-                  onClick={() => navigator.clipboard.writeText(uuid)}
-                  className={`${styles.copyButton}`}
+                  onClick={() => copyToClipboard(uuid)}
+                  className={styles.button}
                 >
                   Copy
                 </button>
               </div>
             ))}
           </div>
-        )}
-      </section>
-
-      <section className={styles.section}>
-        <h2>UUID Validator</h2>
-        <p>Validate if a string is a valid UUID v4</p>
-
-        <div className={styles.inputGroup}>
-          <input
-            type='text'
-            value={uuidToValidate}
-            onChange={(e) => {
-              setUuidToValidate(e.target.value);
-              validateUuid(e.target.value);
-            }}
-            placeholder='Enter UUID to validate'
-            className={styles.input}
-          />
         </div>
 
-        {validationResult !== null && (
-          <div
-            className={`${styles.validationResult} ${
-              validationResult ? styles.valid : styles.invalid
-            }`}
-          >
-            {validationResult ? 'Valid UUID v4' : 'Invalid UUID v4'}
+        <div className={styles.section}>
+          <h2>UUID Validator</h2>
+          <p>Check if a string is a valid UUID</p>
+          <div className={styles.inputGroup}>
+            <input
+              type='text'
+              value={validationInput}
+              onChange={handleValidationChange}
+              placeholder='Enter UUID to validate'
+              className={styles.input}
+            />
           </div>
-        )}
-      </section>
+          {validationResult && (
+            <div
+              className={`${styles.validationResult} ${
+                validationResult.isValid ? styles.valid : styles.invalid
+              }`}
+            >
+              {validationResult.message}
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
