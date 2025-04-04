@@ -1,5 +1,5 @@
 import React from 'react';
-import { httpStatusCodes } from '@/data/statusCodes';
+import httpStatusCodes from '@/data/statusCodes';
 import SingleCodeContent from '@/components/Codes/SingleCodeContent';
 
 export async function generateMetadata({ params }) {

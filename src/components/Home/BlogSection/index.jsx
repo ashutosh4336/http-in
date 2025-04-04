@@ -1,12 +1,14 @@
 'use client';
 
 import styles from './style.module.scss';
+import learnMoreStyles from '@/components/shared/LearnMoreBtn/style.module.scss';
+
 import React, { useCallback, useEffect, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { FaArrowRight } from 'react-icons/fa';
 import { FaHashnode } from 'react-icons/fa6';
 import { motion } from 'framer-motion';
-import LearnMoreBtn from '@/components/shared/LearnMoreBtn';
 
 export default function BlogSection() {
   const [blogs, setBlogs] = useState([]);
@@ -82,42 +84,45 @@ export default function BlogSection() {
           <div className={styles.loading}>Loading blogs...</div>
         ) : (
           blogs.map(({ node: blog }, index) => (
-            <motion.article
+            <Link
+              href={`https://ashutosh4336.hashnode.dev/${blog.slug}`}
               key={blog.slug}
-              className={styles.blogCard}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              target='_blank'
+              rel='noopener noreferrer'
             >
-              <div className={styles.blogImageWrapper}>
-                <Image
-                  src={blog.coverImage.url}
-                  alt={blog.title}
-                  className={styles.blogImage}
-                  fill
-                  sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
-                  priority={index < 2}
-                />
-                <div className={styles.blogHashnodeIcon}>
-                  <FaHashnode />
+              <motion.article
+                className={styles.blogCard}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
+                <div className={styles.blogImageWrapper}>
+                  <Image
+                    src={blog.coverImage.url}
+                    alt={blog.title}
+                    className={styles.blogImage}
+                    fill
+                    sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                    priority={index < 2}
+                  />
+                  <div className={styles.blogHashnodeIcon}>
+                    <FaHashnode />
+                  </div>
                 </div>
-              </div>
-              <div className={styles.blogContent}>
-                <span className={styles.blogDate}>
-                  {formatDate(blog.publishedAt)}
-                </span>
-                <h3>{blog.title}</h3>
-                <div className={styles.blogBrief}>
-                  <p>{blog.brief}</p>
+                <div className={styles.blogContent}>
+                  <span className={styles.blogDate}>
+                    {formatDate(blog.publishedAt)}
+                  </span>
+                  <h3>{blog.title}</h3>
+                  <div className={styles.blogBrief}>
+                    <p>{blog.brief}</p>
+                  </div>
+                  <span className={learnMoreStyles.readMore}>
+                    Read More <FaArrowRight />
+                  </span>
                 </div>
-                <LearnMoreBtn
-                  href={`https://ashutosh4336.hashnode.dev/${blog.slug}`}
-                  text='Read More'
-                  target='_blank'
-                  icon={<FaArrowRight />}
-                />
-              </div>
-            </motion.article>
+              </motion.article>
+            </Link>
           ))
         )}
       </div>

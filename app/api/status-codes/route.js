@@ -1,26 +1,25 @@
 import { NextResponse } from 'next/server';
+import { getTimingInfo } from '@/app/utils/timing';
+import httpStatusCodes from '@/data/statusCodes';
 
 // GET handler
 export async function GET(request) {
   try {
+    const timing = getTimingInfo();
+    await new Promise((resolve) => setTimeout(resolve, 100));
     // Your data fetching logic here
-    const statusCodes = [
-      {
-        code: 200,
-        title: 'OK',
-        description: 'The request has succeeded.',
-        category: 'success',
-      },
-      {
-        code: 404,
-        title: 'Not Found',
-        description: 'The requested resource could not be found.',
-        category: 'client',
-      },
-      // Add more status codes as needed
-    ];
 
-    return NextResponse.json(statusCodes);
+    return NextResponse.json({
+      status: 'success',
+      message: 'Status codes fetched successfully',
+      ...timing.getMetrics(),
+      data: httpStatusCodes.map((code) => ({
+        code: code.code,
+        title: code.title,
+        description: code.description,
+        category: code.category,
+      })),
+    });
   } catch (error) {
     return NextResponse.json(
       { error: 'Internal Server Error' },

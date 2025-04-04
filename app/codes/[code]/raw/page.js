@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation';
-import { httpStatusCodes } from '@/data/statusCodes';
-import styles from '@/styles/Codes.module.scss';
 import Link from 'next/link';
 import { FaArrowLeft } from 'react-icons/fa';
+import httpStatusCodes from '@/data/statusCodes';
+import styles from '@/styles/Codes.module.scss';
 
 export async function generateMetadata({ params }) {
   const code = params.code;

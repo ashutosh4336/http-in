@@ -222,7 +222,7 @@
 //   },
 // ];
 
-const httpStatusCodes = [
+const httpStatusCodes = Object.freeze([
   {
     code: 100,
     title: 'Continue',
@@ -752,11 +752,6 @@ const httpStatusCodes = [
     color: '#9C27B0',
     details: 'Commonly used for captive portals.',
   },
-];
+]);
 
-const categories = [
-  'all',
-  ...new Set(httpStatusCodes.map((code) => code.category)),
-];
-
-export { httpStatusCodes, categories };
+export default httpStatusCodes;

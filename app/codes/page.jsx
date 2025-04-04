@@ -1,6 +1,6 @@
-import { httpStatusCodes as statusCodes } from '@/data/statusCodes';
-import { getCategoryAndColor } from '@/utils/util';
 import Codes from '@/layouts/Codes';
+import httpStatusCodes from '@/data/statusCodes';
+import { getCategoryAndColor } from '@/utils/util';
 
 export const metadata = {
   title: 'HTTP Status Codes || TheHTTP',
@@ -9,7 +9,7 @@ export const metadata = {
 };
 
 // Process the status codes to include category and color
-const processedStatusCodes = statusCodes.map((code) => ({
+const processedStatusCodes = httpStatusCodes.map((code) => ({
   ...code,
   title: code.title.trim(),
   description: code.description.split('(')[0].trim(),
