@@ -754,4 +754,9 @@ const httpStatusCodes = [
   },
 ];
 
-export { httpStatusCodes };
+const categories = [
+  'all',
+  ...new Set(httpStatusCodes.map((code) => code.category)),
+];
+
+export { httpStatusCodes, categories };

@@ -1,0 +1,123 @@
+.cta {
+  padding: 6rem 0;
+  text-align: center;
+  background: linear-gradient(
+    135deg,
+    rgb(14, 148, 163) 0%,
+    rgb(13, 113, 66) 100%
+  );
+  border-radius: 1rem;
+  margin: 2rem 0;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('/grid.svg') repeat;
+    opacity: 0.1;
+    pointer-events: none;
+  }
+}
+
+.ctaContent {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.ctaText {
+  margin-bottom: 3rem;
+
+  h2 {
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, #ffffff 0%, #60efff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
+  }
+
+  p {
+    font-size: 1.5rem;
+    color: #ffffff;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+.ctaButtons {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  a {
+    padding: 1rem 2.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.15s ease;
+    font-size: 1.25rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+}
+
+.primaryButton {
+  background: linear-gradient(135deg, #00ff87 0%, #60efff 100%);
+  color: #1a1a1a;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 255, 135, 0.2);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 255, 135, 0.3);
+  }
+}
+
+.secondaryButton {
+  background: transparent;
+  color: #fff;
+  border: 2px solid rgba(0, 255, 135, 0.3);
+
+  &:hover {
+    background: rgba(0, 255, 136, 0.324);
+    border-color: #00ff87;
+    transform: translateY(-2px);
+  }
+}
+
+@media (max-width: 768px) {
+  .cta {
+    padding: 4rem 0;
+  }
+
+  .ctaText {
+    h2 {
+      font-size: 2.5rem;
+    }
+
+    p {
+      font-size: 1.25rem;
+    }
+  }
+
+  .ctaButtons {
+    flex-direction: column;
+    padding: 0 2rem;
+
+    a {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+}

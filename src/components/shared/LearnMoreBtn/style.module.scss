@@ -1,0 +1,47 @@
+.readMore {
+  color: #00cc6a;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.15s ease;
+  margin-top: auto;
+  padding: 0.5rem 0;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #00cc6a, #009e52);
+    transition: width 0.15s ease;
+  }
+
+  &:hover {
+    gap: 0.8rem;
+    color: #009e52;
+
+    &::after {
+      width: 100%;
+    }
+
+    svg {
+      transform: translateX(4px);
+    }
+  }
+
+  svg {
+    transition: transform 0.15s ease;
+  }
+}
+
+@media (max-width: 768px) {
+  .readMore {
+    font-size: 0.875rem;
+  }
+}
