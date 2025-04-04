@@ -1,12 +1,11 @@
+import '@/styles/globals.scss';
+import 'react-toastify/dist/ReactToastify.css';
 import { Inter } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import '@/styles/globals.scss';
 import Navbar from '@/layouts/Navbar';
 import Footer from '@/layouts/Footer';
-// import styles from '@/styles/Layouts.module.scss';
 
 const inter = Inter({ subsets: ['latin'] });
 

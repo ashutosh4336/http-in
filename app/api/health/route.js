@@ -3,13 +3,13 @@ import { getTimingInfo } from '@/app/utils/timing';
 
 /**
  * @swagger
- * /api/ping:
+ * /api/health:
  *   get:
- *     summary: Ping the server
- *     description: Returns a simple "pong" message with timing information
+ *     summary: Health check
+ *     description: Check if the server is running
  *     responses:
  *       200:
- *         description: A successful response with timing metrics
+ *         description: Health check response
  *         content:
  *           application/json:
  *             schema:
@@ -30,15 +30,19 @@ import { getTimingInfo } from '@/app/utils/timing';
  *                 uptime:
  *                   type: string
  *                   example: 3600s
+ *                 version:
+ *                   type: string
+ *                   example: 1.0.0
+ *                 environment:
+ *                   type: string
+ *                   example: development
  */
-export async function GET() {
+export async function GET(request) {
   const timing = getTimingInfo(true);
 
-  // await new Promise((resolve) => setTimeout(resolve, 1000));
-
   return NextResponse.json({
-    status: 'success',
-    message: 'pong',
+    success: true,
+    message: 'Health check',
     ...timing.getMetrics(),
   });
 }

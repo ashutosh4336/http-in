@@ -12,7 +12,8 @@
       "@/hooks/*": ["./src/hooks/*"],
       "@/lib/*": ["./lib/*"],
       "@/constants/*": ["./src/constants/*"],
-      "@/layouts/*": ["./src/layouts/*"]
+      "@/layouts/*": ["./src/layouts/*"],
+      "@/api/*": ["./app/api/*"]
       // "@/public/*": ["./src/public/*"]
     }
   },

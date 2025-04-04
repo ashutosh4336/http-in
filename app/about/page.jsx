@@ -1,11 +1,11 @@
 import React from 'react';
-import Layout from '../layout';
+// import Layout from '../../temp/layout';
 
 const About = () => {
   return (
-    <Layout title='About'>
-      <h1>About</h1>
-    </Layout>
+    // <Layout title='About'>
+    <h1>About</h1>
+    // </Layout>
   );
 };
 
