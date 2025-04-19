@@ -58,6 +58,10 @@
 .navIcon {
   font-size: 1rem;
   transition: all 0.3s ease;
+
+  &.jsIcon {
+    color: #fdcf00;
+  }
 }
 
 .navLink {

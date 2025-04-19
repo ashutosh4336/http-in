@@ -13,6 +13,7 @@ import {
   FaGithub,
 } from 'react-icons/fa';
 import { PiBarcodeLight } from 'react-icons/pi';
+import { SiJavascript } from 'react-icons/si';
 
 import Logo from '@/components/Logo';
 
@@ -36,7 +37,8 @@ const Navbar = () => {
     // { name: 'Home', path: '/', icon: FaHome },
     { name: 'UUID', path: '/uuid', icon: PiBarcodeLight },
     { name: 'Status Codes', path: '/codes', icon: FaCode },
-    { name: 'Documentation', path: '/docs', icon: FaBook },
+    { name: 'Visualizer', path: '/js-visualizer', icon: SiJavascript },
+    // { name: 'Documentation', path: '/docs', icon: FaBook },
   ];
 
   if (!mounted) {
@@ -67,7 +69,11 @@ const Navbar = () => {
               }`}
             >
               <span className={styles.navItem}>
-                <item.icon className={styles.navIcon} />
+                <item.icon
+                  className={`${styles.navIcon} ${
+                    item.name === 'Visualizer' ? styles.jsIcon : ''
+                  }`}
+                />
                 {item.name}
               </span>
             </Link>

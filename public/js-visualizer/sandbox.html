@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>JavaScript Visualizer Sandbox</title>
+  </head>
+  <body>
+    <script>
+      (function () {
+        // Create a completely isolated environment
+        const logs = [];
+        const microQueue = [];
+        const macroQueue = [];
+        const stack = [];
+        let isRunning = true;
+        let timeoutId = null;
+        let activeTimeouts = new Set();
+        let activePromises = new Set();
+
+        // Polyfill for setImmediate
+        if (typeof setImmediate === 'undefined') {
+          window.setImmediate = function (callback) {
+            return setTimeout(callback, 0);
+          };
+        }
+
+        // Override Promise to track micro tasks
+        const originalPromise = window.Promise;
+        window.Promise = function (executor) {
+          const promise = new originalPromise(executor);
+
+          // Track the promise in our micro queue
+          const promiseId = Date.now() + Math.random();
+          microQueue.push({
+            id: promiseId,
+            type: 'micro',
+            source: 'Promise',
+            details: 'Promise created',
+          });
+          logs.push('[MICRO] Promise created');
+          parent.postMessage(
+            {
+              type: 'microQueue',
+              queue: [...microQueue],
+              logs,
+            },
+            '*'
+          );
+
+          // Remove from queue when resolved or rejected
+          promise.finally(() => {
+            if (!isRunning) return;
+            microQueue.splice(
+              microQueue.findIndex((t) => t.id === promiseId),
+              1
+            );
+            logs.push('[MICRO] Promise resolved or rejected');
+            parent.postMessage(
+              {
+                type: 'microQueue',
+                queue: [...microQueue],
+                logs,
+              },
+              '*'
+            );
+          });
+
+          return promise;
+        };
+
+        // Copy static methods from original Promise
+        window.Promise.resolve = originalPromise.resolve;
+        window.Promise.reject = originalPromise.reject;
+        window.Promise.all = originalPromise.all;
+        window.Promise.race = originalPromise.race;
+        window.Promise.allSettled = originalPromise.allSettled;
+        window.Promise.any = originalPromise.any;
+
+        // Override queueMicrotask to track micro tasks
+        const originalQueueMicrotask = window.queueMicrotask;
+        window.queueMicrotask = function (callback) {
+          const microtaskId = Date.now() + Math.random();
+          microQueue.push({
+            id: microtaskId,
+            type: 'micro',
+            source: 'queueMicrotask',
+            details: 'Microtask queued',
+          });
+          logs.push('[MICRO] Microtask queued');
+          parent.postMessage(
+            {
+              type: 'microQueue',
+              queue: [...microQueue],
+              logs,
+            },
+            '*'
+          );
+
+          // Call the original queueMicrotask
+          originalQueueMicrotask.call(window, () => {
+            if (!isRunning) return;
+            microQueue.splice(
+              microQueue.findIndex((t) => t.id === microtaskId),
+              1
+            );
+            logs.push('[MICRO] Microtask executing');
+            parent.postMessage(
+              {
+                type: 'microQueue',
+                queue: [...microQueue],
+                logs,
+              },
+              '*'
+            );
+            try {
+              callback();
+            } catch (err) {
+              logs.push('[ERROR] In microtask: ' + err.message);
+              parent.postMessage(
+                {
+                  type: 'error',
+                  error: err.message,
+                  logs,
+                },
+                '*'
+              );
+            }
+          });
+        };
+
+        // Override MutationObserver to track micro tasks
+        const originalMutationObserver = window.MutationObserver;
+        window.MutationObserver = function (callback) {
+          const observer = new originalMutationObserver(
+            (mutations, observer) => {
+              if (!isRunning) return;
+
+              const mutationId = Date.now() + Math.random();
+              microQueue.push({
+                id: mutationId,
+                type: 'micro',
+                source: 'MutationObserver',
+                details: 'Mutation observed: ' + mutations.length + ' changes',
+              });
+              logs.push(
+                '[MICRO] Mutation observed: ' + mutations.length + ' changes'
+              );
+              parent.postMessage(
+                {
+                  type: 'microQueue',
+                  queue: [...microQueue],
+                  logs,
+                },
+                '*'
+              );
+
+              try {
+                callback(mutations, observer);
+              } catch (err) {
+                logs.push('[ERROR] In MutationObserver: ' + err.message);
+                parent.postMessage(
+                  {
+                    type: 'error',
+                    error: err.message,
+                    logs,
+                  },
+                  '*'
+                );
+              } finally {
+                microQueue.splice(
+                  microQueue.findIndex((t) => t.id === mutationId),
+                  1
+                );
+                logs.push('[MICRO] MutationObserver callback completed');
+                parent.postMessage(
+                  {
+                    type: 'microQueue',
+                    queue: [...microQueue],
+                    logs,
+                  },
+                  '*'
+                );
+              }
+            }
+          );
+
+          return observer;
+        };
+
+        // Override requestAnimationFrame to track micro tasks
+        const originalRequestAnimationFrame = window.requestAnimationFrame;
+        window.requestAnimationFrame = function (callback) {
+          const frameId = Date.now() + Math.random();
+          microQueue.push({
+            id: frameId,
+            type: 'micro',
+            source: 'requestAnimationFrame',
+            details: 'Animation frame requested',
+          });
+          logs.push('[MICRO] Animation frame requested');
+          parent.postMessage(
+            {
+              type: 'microQueue',
+              queue: [...microQueue],
+              logs,
+            },
+            '*'
+          );
+
+          // Call the original requestAnimationFrame
+          return originalRequestAnimationFrame.call(window, (timestamp) => {
+            if (!isRunning) return;
+            microQueue.splice(
+              microQueue.findIndex((t) => t.id === frameId),
+              1
+            );
+            logs.push('[MICRO] Animation frame executing');
+            parent.postMessage(
+              {
+                type: 'microQueue',
+                queue: [...microQueue],
+                logs,
+              },
+              '*'
+            );
+            try {
+              callback(timestamp);
+            } catch (err) {
+              logs.push('[ERROR] In animation frame: ' + err.message);
+              parent.postMessage(
+                {
+                  type: 'error',
+                  error: err.message,
+                  logs,
+                },
+                '*'
+              );
+            }
+          });
+        };
+
+        const context = {
+          microQueue,
+          macroQueue,
+          stack,
+          stackPush(name) {
+            if (!isRunning) return;
+            stack.push(name);
+            logs.push('[STACK PUSH] ' + name);
+            parent.postMessage(
+              {
+                type: 'stack',
+                stack: [...stack],
+                logs,
+              },
+              '*'
+            );
+          },
+          stackPop() {
+            if (!isRunning) return;
+            const popped = stack.pop();
+            logs.push('[STACK POP] ' + popped);
+            parent.postMessage(
+              {
+                type: 'stack',
+                stack: [...stack],
+                logs,
+              },
+              '*'
+            );
+          },
+          addMicroTask(task) {
+            if (!isRunning) return;
+            const taskId = Date.now() + Math.random();
+            microQueue.push({
+              id: taskId,
+              type: 'micro',
+              source: task.source,
+              details: task.details,
+            });
+            logs.push('[MICRO] ' + task.details);
+            parent.postMessage(
+              {
+                type: 'microQueue',
+                queue: [...microQueue],
+                logs,
+              },
+              '*'
+            );
+
+            const promise = Promise.resolve().then(() => {
+              if (!isRunning) return;
+              microQueue.splice(
+                microQueue.findIndex((t) => t.id === taskId),
+                1
+              );
+              logs.push('[MICRO] executing: ' + task.details);
+              parent.postMessage(
+                {
+                  type: 'microQueue',
+                  queue: [...microQueue],
+                  logs,
+                },
+                '*'
+              );
+              try {
+                task.fn();
+              } catch (err) {
+                logs.push('[ERROR] In micro task: ' + err.message);
+                parent.postMessage(
+                  {
+                    type: 'error',
+                    error: err.message,
+                    logs,
+                  },
+                  '*'
+                );
+              }
+            });
+            activePromises.add(promise);
+            promise.finally(() => activePromises.delete(promise));
+          },
+          addMacroTask(task) {
+            if (!isRunning) return;
+            const taskId = Date.now() + Math.random();
+            macroQueue.push({
+              id: taskId,
+              type: 'macro',
+              source: task.source,
+              details: task.details,
+              delay: task.delay,
+            });
+            logs.push('[MACRO] ' + task.details);
+            parent.postMessage(
+              {
+                type: 'macroQueue',
+                queue: [...macroQueue],
+                logs,
+              },
+              '*'
+            );
+
+            const timeout = setTimeout(() => {
+              if (!isRunning) return;
+              macroQueue.splice(
+                macroQueue.findIndex((t) => t.id === taskId),
+                1
+              );
+              logs.push('[MACRO] executing: ' + task.details);
+              parent.postMessage(
+                {
+                  type: 'macroQueue',
+                  queue: [...macroQueue],
+                  logs,
+                },
+                '*'
+              );
+              try {
+                task.fn();
+              } catch (err) {
+                logs.push('[ERROR] In macro task: ' + err.message);
+                parent.postMessage(
+                  {
+                    type: 'error',
+                    error: err.message,
+                    logs,
+                  },
+                  '*'
+                );
+              }
+            }, task.delay || 0);
+            activeTimeouts.add(timeout);
+          },
+          // Alias for task handling to maintain compatibility with instrumented code
+          queueTask(fn, delay, source = 'setTimeout') {
+            const ctx = context; // Capture the context
+            // Micro tasks (Promises, queueMicrotask, etc.)
+            if (
+              source === 'Promise' ||
+              source === 'queueMicrotask' ||
+              source === 'MutationObserver'
+            ) {
+              ctx.addMicroTask({
+                source,
+                details: 'Micro task from ' + source,
+                fn,
+              });
+            }
+            // Macro tasks (setTimeout, setInterval, etc.)
+            else {
+              ctx.addMacroTask({
+                source,
+                details:
+                  'Macro task from ' +
+                  source +
+                  (delay ? ' with delay: ' + delay + 'ms' : ''),
+                delay,
+                fn,
+              });
+            }
+          },
+          console: {
+            log: (...args) => {
+              if (!isRunning) return;
+              logs.push('[LOG] ' + args.join(' '));
+              parent.postMessage(
+                {
+                  type: 'logs',
+                  logs,
+                },
+                '*'
+              );
+            },
+          },
+        };
+
+        // Cleanup function to stop all pending operations
+        function cleanup() {
+          isRunning = false;
+          if (timeoutId) {
+            clearTimeout(timeoutId);
+            timeoutId = null;
+          }
+          // Clear all active timeouts
+          activeTimeouts.forEach(clearTimeout);
+          activeTimeouts.clear();
+          // Note: We can't cancel promises, but we can prevent their callbacks from executing
+          activePromises.clear();
+        }
+
+        // Listen for messages from parent
+        window.addEventListener('message', (event) => {
+          if (event.data === 'cleanup') {
+            cleanup();
+          } else if (event.data.type === 'execute') {
+            // Execute the code in a try-catch block
+            try {
+              const keys = Object.keys(context);
+              const values = Object.values(context);
+              // const fn = new Function(...keys, event.data.code);
+
+              window.__sandboxContext__ = context;
+
+              const script = document.createElement('script');
+              script.type = 'module'; // optional
+              script.textContent = `
+                (() => {
+                  const { stackPush, stackPop, queueTask, console } = window.__sandboxContext__;
+                  ${event.data.code}
+                })();
+              `;
+              document.body.appendChild(script);
+
+              // Execute the function
+              // fn.apply(context, values);
+            } catch (error) {
+              isRunning = false;
+              logs.push('[ERROR] ' + error.message);
+              parent.postMessage(
+                {
+                  type: 'error',
+                  error: error.message,
+                  logs,
+                },
+                '*'
+              );
+            }
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

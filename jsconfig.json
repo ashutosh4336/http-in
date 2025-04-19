@@ -13,8 +13,8 @@
       "@/lib/*": ["./lib/*"],
       "@/constants/*": ["./src/constants/*"],
       "@/layouts/*": ["./src/layouts/*"],
-      "@/api/*": ["./app/api/*"]
-      // "@/public/*": ["./src/public/*"]
+      "@/api/*": ["./app/api/*"],
+      "@/app-utils/*": ["./app/utils/*"]
     }
   },
   "exclude": ["node_modules", "build", "public"]
