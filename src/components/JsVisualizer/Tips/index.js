@@ -26,4 +26,15 @@ function Tips() {
   );
 }
 
+export function Disclaimer({ infoText }) {
+  return (
+    <div className={styles.disclaimer}>
+      <p>
+        <span className={styles.disclaimerIcon}>ℹ️</span>
+        {infoText}
+      </p>
+    </div>
+  );
+}
+
 export default Tips;

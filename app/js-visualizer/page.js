@@ -8,7 +8,7 @@ import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import Editor from '@monaco-editor/react';
 import { instrument } from '@/app/utils/instrumentor-babel';
 import { codeSnippets, editorThemes } from '@/constants/visualizer';
-import Tips from '@/components/JsVisualizer/Tips';
+import Tips, { Disclaimer } from '@/components/JsVisualizer/Tips';
 import JsVisualizerHeader from '@/components/JsVisualizer/JsHeader';
 
 const formatLogs = (logs) => {
@@ -105,18 +105,23 @@ const JsVisualizer = () => {
     }
   };
 
-  const resetLogs = () => {
+  const resetLogs = (clearEditor = false) => {
     setLogs('');
     setMicroQueue([]);
     setMacroQueue([]);
     setError(null);
+
+    // Clear all code from the editor
+    if (editorRef.current && clearEditor) {
+      editorRef.current.setValue('');
+    }
   };
 
   const loadSnippet = (code) => {
     setInput(code);
-    if (editorRef.current) {
-      editorRef.current.setValue(code);
-    }
+
+    if (editorRef.current) editorRef.current.setValue(code);
+
     resetLogs();
   };
 
@@ -212,7 +217,10 @@ const JsVisualizer = () => {
           <button onClick={run} className={styles.runButton}>
             <FaPlay /> Run Code
           </button>
-          <button onClick={resetLogs} className={styles.resetButton}>
+          <button
+            onClick={() => resetLogs(true)}
+            className={styles.resetButton}
+          >
             <FaRedo /> Reset
           </button>
         </div>
@@ -304,6 +312,8 @@ const JsVisualizer = () => {
 
       {/* Tips Section */}
       <Tips />
+
+      <Disclaimer infoText='This visualization tool is for educational purposes only. The information provided may not always be 100% accurate. Please verify any critical information independently.' />
     </div>
   );
 };

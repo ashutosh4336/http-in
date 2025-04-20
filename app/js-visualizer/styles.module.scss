@@ -29,6 +29,27 @@
   }
 }
 
+.disclaimer {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  margin-top: 1rem;
+  border-left: 2px solid #ffd700;
+  font-size: 0.8rem;
+  color: #888;
+
+  p {
+    margin: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .disclaimerIcon {
+    margin-right: 0.5rem;
+    font-size: 0.9rem;
+  }
+}
+
 .snippetsSection {
   margin-bottom: 2rem;
   background: rgba(255, 255, 255, 0.05);
@@ -353,7 +374,7 @@
   }
 
   .stack {
-    color: #eaeaea;
+    color: #3e9ff5;
   }
 
   .queue {
