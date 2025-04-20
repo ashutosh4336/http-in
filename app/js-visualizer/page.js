@@ -51,7 +51,6 @@ const JsVisualizer = () => {
   const [languageWarning, setLanguageWarning] = useState(null);
 
   const editorRef = useRef(null);
-  const editorThemeRef = useRef(editorTheme);
 
   const handleEditorDidMount = (editor, monaco) => {
     editorRef.current = editor;
@@ -199,7 +198,7 @@ const JsVisualizer = () => {
             height='300px'
             defaultLanguage='javascript'
             defaultValue={input}
-            theme={editorThemeRef.current}
+            theme={editorTheme}
             onMount={handleEditorDidMount}
             options={{
               minimap: { enabled: false },
