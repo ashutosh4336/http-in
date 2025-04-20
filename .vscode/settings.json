@@ -5,6 +5,7 @@
     "hashnode",
     "HTTPIN",
     "instrumentor",
+    "Macrotasks",
     "middlewares",
     "noopener",
     "noreferrer",
