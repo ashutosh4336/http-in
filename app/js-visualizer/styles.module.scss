@@ -21,11 +21,20 @@
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
   }
 
   p {
     font-size: 1.2rem;
     color: #888;
+  }
+
+  svg {
+    font-size: 2.5rem;
+    color: #fdcf00;
   }
 }
 

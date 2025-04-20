@@ -2,13 +2,15 @@ import styles from '@/app/js-visualizer/styles.module.scss';
 import React from 'react';
 import { codeSnippets } from '@/constants/visualizer';
 import { FaCode } from 'react-icons/fa';
-import { SiCodeblocks } from 'react-icons/si';
+import { SiCodeblocks, SiJavascript } from 'react-icons/si';
 
 export default function JsVisualizerHeader({ loadSnippet }) {
   return (
     <React.Fragment>
       <div className={styles.header}>
-        <h1>JavaScript Visualizer</h1>
+        <h1>
+          <SiJavascript alt='JavaScript' /> Visualizer
+        </h1>
         <p>
           Visualize JavaScript execution, call stack, and task queue in
           real-time
