@@ -16,6 +16,51 @@
         let activeTimeouts = new Set();
         let activePromises = new Set();
 
+        // List of common Node.js modules that might be attempted to be used
+        const nodeModules = [
+          'fs',
+          'path',
+          'os',
+          'crypto',
+          'http',
+          'https',
+          'net',
+          'dgram',
+          'child_process',
+          'cluster',
+          'dns',
+          'tls',
+          'zlib',
+          'stream',
+          'util',
+          'events',
+          'buffer',
+          'url',
+          'querystring',
+          'string_decoder',
+          'punycode',
+          'readline',
+          'repl',
+          'vm',
+          'worker_threads',
+        ];
+
+        // Function to check if code contains Node.js modules
+        function containsNodeModules(code) {
+          for (const module of nodeModules) {
+            if (
+              code.includes(`require('${module}')`) ||
+              code.includes(`require("${module}")`) ||
+              code.includes(`import ${module}`) ||
+              code.includes(`import('${module}')`) ||
+              code.includes(`import("${module}")`)
+            ) {
+              return module;
+            }
+          }
+          return false;
+        }
+
         // Polyfill for setImmediate
         if (typeof setImmediate === 'undefined') {
           window.setImmediate = function (callback) {
@@ -410,6 +455,39 @@
                 '*'
               );
             },
+            error: (...args) => {
+              if (!isRunning) return;
+              logs.push('[ERROR] ' + args.join(' '));
+              parent.postMessage(
+                {
+                  type: 'logs',
+                  logs,
+                },
+                '*'
+              );
+            },
+            warn: (...args) => {
+              if (!isRunning) return;
+              logs.push('[WARN] ' + args.join(' '));
+              parent.postMessage(
+                {
+                  type: 'logs',
+                  logs,
+                },
+                '*'
+              );
+            },
+            debug: (...args) => {
+              if (!isRunning) return;
+              logs.push('[DEBUG] ' + args.join(' '));
+              parent.postMessage(
+                {
+                  type: 'logs',
+                  logs,
+                },
+                '*'
+              );
+            },
           },
         };
 
@@ -432,6 +510,39 @@
           if (event.data === 'cleanup') {
             cleanup();
           } else if (event.data.type === 'execute') {
+            // Check for Node.js modules
+            const nodeModule = containsNodeModules(event.data.code);
+            if (nodeModule) {
+              logs.push(
+                `[ERROR] Node.js module '${nodeModule}' is not available in the browser environment.`
+              );
+              parent.postMessage(
+                {
+                  type: 'error',
+                  error: `Node.js module '${nodeModule}' is not available in the browser environment.`,
+                  logs,
+                },
+                '*'
+              );
+              return;
+            }
+
+            // Check for non-JavaScript code
+            // const nonJsLang = detectNonJsCode(event.data.code);
+            // if (nonJsLang) {
+            //   logs.push(
+            //     `[WARN] Detected ${nonJsLang} code. This visualizer only supports JavaScript. Some features may not work correctly.`
+            //   );
+            //   parent.postMessage(
+            //     {
+            //       type: 'languageWarning',
+            //       language: nonJsLang,
+            //       logs,
+            //     },
+            //     '*'
+            //   );
+            // }
+
             // Execute the code in a try-catch block
             try {
               const keys = Object.keys(context);

@@ -10,6 +10,12 @@ import { instrument } from '@/app/utils/instrumentor-babel';
 import { codeSnippets, editorThemes } from '@/constants/visualizer';
 import Tips, { Disclaimer } from '@/components/JsVisualizer/Tips';
 import JsVisualizerHeader from '@/components/JsVisualizer/JsHeader';
+import LanguageWarning from '@/components/JsVisualizer/LanguageWarning';
+import ErrorMessage from '@/components/JsVisualizer/ErrorMessage';
+import { FaCode, FaTerminal } from 'react-icons/fa6';
+import { TbTransform } from 'react-icons/tb';
+import { HiQueueList } from 'react-icons/hi2';
+import { HiOutlineQueueList } from 'react-icons/hi2';
 
 const formatLogs = (logs) => {
   return logs
@@ -42,6 +48,7 @@ const JsVisualizer = () => {
   const [macroQueue, setMacroQueue] = useState([]);
   const [error, setError] = useState(null);
   const [editorTheme, setEditorTheme] = useState('vs-dark');
+  const [languageWarning, setLanguageWarning] = useState(null);
 
   const editorRef = useRef(null);
   const editorThemeRef = useRef(editorTheme);
@@ -110,6 +117,7 @@ const JsVisualizer = () => {
     setMicroQueue([]);
     setMacroQueue([]);
     setError(null);
+    setLanguageWarning(null);
 
     // Clear all code from the editor
     if (editorRef.current && clearEditor) {
@@ -144,6 +152,9 @@ const JsVisualizer = () => {
       } else if (event.data.type === 'error') {
         setError(event.data.error);
         setLogs(event.data.logs.join('\n'));
+      } else if (event.data.type === 'languageWarning') {
+        setLanguageWarning(event.data.language);
+        setLogs(event.data.logs.join('\n'));
       }
     };
 
@@ -165,7 +176,9 @@ const JsVisualizer = () => {
 
       <div className={styles.inputSection}>
         <div className={styles.editorHeader}>
-          <h2>Input Code</h2>
+          <h2>
+            <FaCode /> Input Code
+          </h2>
           <div className={styles.themeSelector}>
             <FaPalette className={styles.themeIcon} />
             <select
@@ -209,6 +222,7 @@ const JsVisualizer = () => {
                 useShadows: false,
                 verticalScrollbarSize: 10,
                 horizontalScrollbarSize: 10,
+                alwaysConsumeMouseWheel: false,
               },
             }}
           />
@@ -228,7 +242,10 @@ const JsVisualizer = () => {
 
       <div className={styles.visualizationSection}>
         <div className={styles.queueVisualization}>
-          <h3>Micro Task Queue</h3>
+          <h3>
+            <HiQueueList />
+            Micro Task Queue
+          </h3>
           <div className={styles.queueContainer}>
             {microQueue.length === 0 ? (
               <div className={styles.emptyState}>Empty</div>
@@ -248,7 +265,10 @@ const JsVisualizer = () => {
           </div>
         </div>
         <div className={styles.queueVisualization}>
-          <h3>Macro Task Queue</h3>
+          <h3>
+            <HiOutlineQueueList />
+            Macro Task Queue
+          </h3>
           <div className={styles.queueContainer}>
             {macroQueue.length === 0 ? (
               <div className={styles.emptyState}>Empty</div>
@@ -271,7 +291,10 @@ const JsVisualizer = () => {
       </div>
 
       <div className={styles.outputSection}>
-        <h3>Instrumented Code</h3>
+        <h3>
+          <TbTransform />
+          Instrumented Code
+        </h3>
         <div className={styles.codeBlock}>
           <SyntaxHighlighter
             language='javascript'
@@ -291,23 +314,20 @@ const JsVisualizer = () => {
           </SyntaxHighlighter>
         </div>
 
-        <h3>Console Output</h3>
+        <h3>
+          <FaTerminal /> Console Output
+        </h3>
         <div
           className={`${styles.consoleOutput}`}
           style={{ fontFamily: "'Fira Code', monospace" }}
           dangerouslySetInnerHTML={{ __html: formatLogs(logs.split('\n')) }}
         />
 
-        {error && (
-          <div className={styles.errorMessage}>
-            <h3>Error</h3>
-            <div className={styles.codeBlock}>
-              <pre style={{ fontFamily: "'Fira Code', monospace" }}>
-                {error}
-              </pre>
-            </div>
-          </div>
+        {languageWarning && (
+          <LanguageWarning languageWarning={languageWarning} />
         )}
+
+        {error && <ErrorMessage error={error} />}
       </div>
 
       {/* Tips Section */}
